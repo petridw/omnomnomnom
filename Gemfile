@@ -29,6 +29,9 @@ gem 'angular-rails-templates'
 # For Bootstrap!
 gem 'bootstrap-sass'
 
+# Protect the keys!
+gem 'figaro'
+
 
 group :development, :test do
   # Call 'byebug' anywhere in the code to stop execution and get a debugger console

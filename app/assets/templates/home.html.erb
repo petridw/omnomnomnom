@@ -19,3 +19,9 @@
     </div>
   </form>
 </section>
+
+<section ng-if="vm.searchResults" class="row text-center">
+  <div ng-repeat="recipe in vm.recipes.matches" class="col-md-2">
+    <img ng-src="{{recipe['imageUrlsBySize']['90']}}" alt="{{recipe.recipeName}} image" style="margin-bottom:15px;">
+  </div>
+</section>

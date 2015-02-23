@@ -3,10 +3,18 @@ angular
   .controller('HomeController', [
     '$http', 
     '$resource', 
-    function($http, $resource){
-
-      var vm = this;
-      
-      vm.hi = "hehehehe";
-    }
+    HomeController
   ]);
+
+
+function HomeController($http, $resource) {
+  var vm = this;
+
+  vm.search = function(keywords) {
+    console.log("Searched for " + keywords);
+  };
+
+  function yummly() {
+
+  }
+}

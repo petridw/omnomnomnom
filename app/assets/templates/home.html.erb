@@ -1,19 +1,19 @@
 <header class="row">
-  <h1 class="text-center col-md-6 col-md-offset-3">
+  <h1 class="text-center col-sm-6 col-sm-offset-3">
     Find Recipes
   </h1>
 </header>
 
 <section class="row">
   <form>
-    <div class="form-group col-md-6 col-md-offset-3">
+    <div class="form-group col-sm-6 col-sm-offset-3">
       <label for="keywords" class="sr-only">
         Keywords
       </label>
-      <input type="text" ng-model="keywords" name="keywords" autofocus class="form-control" placeholder="Recipe name or ingredient">
+      <input type="text" ng-model="vm.keywords" name="keywords" autofocus class="form-control" placeholder="Recipe name or ingredient">
     </div>
-    <div class="form-group col-md-6 col-md-offset-3 text-center">
-      <button ng-click="vm.search(keywords)" class="btn btn-primary btn-lg">
+    <div class="form-group col-sm-6 col-sm-offset-3 text-center">
+      <button ng-click="vm.search()" class="btn btn-primary btn-lg">
         Search
       </button>
     </div>
@@ -21,7 +21,11 @@
 </section>
 
 <section ng-if="vm.searchResults" class="row text-center">
-  <div ng-repeat="recipe in vm.recipes.matches" class="col-md-2">
+  <div ng-repeat="recipe in vm.recipes.matches" class="col-sm-2">
     <img ng-src="{{recipe['imageUrlsBySize']['90']}}" alt="{{recipe.recipeName}} image" style="margin-bottom:15px;">
   </div>
+</section>
+
+<section class="row text-center">
+  Recipe search powered by <a href='http://www.yummly.com/recipes'><img alt='Yummly' src='http://static.yummly.com/api-logo.png'/></a>
 </section>

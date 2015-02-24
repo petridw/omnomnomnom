@@ -1,16 +1,22 @@
 <header class="row">
   <h1 class="text-center col-sm-6 col-sm-offset-3">
-    Find Recipes
+    omnomalizer
   </h1>
 </header>
 
 <section class="row">
   <form>
     <div class="form-group col-sm-6 col-sm-offset-3">
-      <label for="keywords" class="sr-only">
-        Keywords
-      </label>
-      <input type="text" ng-model="vm.keywords" name="keywords" autofocus class="form-control" placeholder="Recipe name or ingredient">
+      <label for="keywords" class="sr-only">Keywords</label>
+      <input type="text" ng-model="vm.keywords" name="keywords" autofocus class="form-control" placeholder="Recipe name or keyword">
+    </div>
+    <div ng-repeat="ingredient in vm.ingredients" class="form-group col-sm-6 col-sm-offset-3 text-center">
+      {{ingredient}}
+    </div>
+    <div class="form-group col-sm-6 col-sm-offset-3 text-center">
+      <label for="ingredients" class="sr-only">Ingredients</label>
+      <input type="text" ng-model="vm.ingredient" name="ingredient" class="form-control" placeholder="Ingredient to include, e.g. butter">
+      <button ng-click="vm.addIngredient()" class="btn btn-primary">Add Ingredient</button>
     </div>
     <div class="form-group col-sm-6 col-sm-offset-3 text-center">
       <button ng-click="vm.search()" class="btn btn-primary btn-lg">
@@ -27,5 +33,5 @@
 </section>
 
 <section class="row text-center">
-  Recipe search powered by <a href='http://www.yummly.com/recipes'><img alt='Yummly' src='http://static.yummly.com/api-logo.png'/></a>
+  Recipe search powered by<a href='http://www.yummly.com/recipes'><img alt='Yummly' src='http://static.yummly.com/api-logo.png'/></a>
 </section>

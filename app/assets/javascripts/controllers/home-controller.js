@@ -21,9 +21,16 @@ function HomeController($http, $resource) {
     Recipes.get({keywords: vm.keywords, ingredients: vm.ingredients}, function(results) {
       vm.recipes = results;
       vm.searchResults = true;
-      console.log(vm.recipes);
+      console.log(results);
       vm.attribution = results.attribution.html;
     });
+  };
+
+  vm.addIngredient = function() {
+    if (vm.ingredient !== "") {
+      vm.ingredients.push(vm.ingredient);
+      vm.ingredient = "";
+    }
   };
 
 }

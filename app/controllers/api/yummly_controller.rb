@@ -2,6 +2,7 @@ module Api
   class YummlyController < ApplicationController
 
     API_URL = "http://api.yummly.com/v1/api"
+    MAX_RESULT = 250
 
     def recipes
 
@@ -26,13 +27,20 @@ module Api
           _app_key: ENV['yummly_app_key'],
           q: keywords,
           allowedIngredient: ingredients,
-          maxResult: 500
+          maxResult: MAX_RESULT
         }
       }
-      # render plain: "options: #{options}"
 
-      response = HTTParty.get(request, options)
-      render json: response.to_json
+      if keywords == "test"
+        request = "https://gist.githubusercontent.com/petridw/6b660cc8df76778feac6/raw/9633cf8ba7db96bed56e0072932326e3cd0328fd/yummly_example"
+        response = JSON.parse(HTTParty.get(request))
+      else
+        response = HTTParty.get(request, options)
+      end
+
+      recipes = response['matches']
+      recipes.sort! { |a,b| b['rating'] <=> a['rating'] }
+      render json: recipes.take(20).to_json
     end
 
     def recipe
@@ -48,6 +56,7 @@ module Api
 
       response = HTTParty.get(request, options)
       render json: response.to_json
+
     end
   end
 end

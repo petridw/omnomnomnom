@@ -1,9 +1,12 @@
+<!-- -------------------- Header -------------------- -->
 <header class="row">
   <h1 class="text-center col-sm-6 col-sm-offset-3">
     omnomalizer
   </h1>
 </header>
 
+
+<!-- -------------------- Search Form -------------------- -->
 <section class="row">
   <form>
     <div class="form-group col-sm-6 col-sm-offset-3">
@@ -26,12 +29,34 @@
   </form>
 </section>
 
+
+<!-- -------------------- Show Recipes -------------------- -->
 <section ng-if="vm.searchResults" class="row text-center">
-  <div ng-repeat="recipe in vm.recipes.matches" class="col-sm-2">
-    <img ng-src="{{recipe['imageUrlsBySize']['90']}}" alt="{{recipe.recipeName}} image" style="margin-bottom:15px;">
+
+  <div ng-repeat="recipe in vm.recipes" class="col-sm-3">
+    <div class="card">
+      <div class="card-image">
+        <img ng-src="{{recipe['imageUrlsBySize']['90'] || 'http://upload.wikimedia.org/wikipedia/commons/thumb/a/ac/No_image_available.svg/300px-No_image_available.svg.png'}}" alt="{{recipe.recipeName}} image" >
+      </div>
+      <div class="card-info">
+        <div class="card-header">
+          {{recipe.recipeName}}
+          <p><em>{{ recipe.sourceDisplayName }}</em></p>
+        </div>
+        <div class="card-rating">
+          Rating: {{recipe.rating}}
+        </div>
+        <div class="card-ingredients">
+          <p>
+            {{recipe.ingredients.join(", ")}}
+          </p>
+        </div>
+      </div>
+    </div>
   </div>
 </section>
 
+<!-- -------------------- Attribution -------------------- -->
 <section class="row text-center">
   Recipe search powered by<a href='http://www.yummly.com/recipes'><img alt='Yummly' src='http://static.yummly.com/api-logo.png'/></a>
 </section>

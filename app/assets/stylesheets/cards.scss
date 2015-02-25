@@ -1,0 +1,46 @@
+.card {
+
+  //////////////////////////////////////////////////////////////////////////////////
+  $base-font-color: #333;
+  $base-border-color: gainsboro;
+  $base-border-radius: 3px;
+  $base-background-color: white;
+  $base-spacing: 1.5em;
+  $base-accent-color: #477DCA;
+  $base-link-color: $base-accent-color;
+  //////////////////////////////////////////////////////////////////////////////////
+  $card-border-color: $base-border-color;
+  $card-border: 1px solid $card-border-color;
+  $card-background: lighten($card-border-color, 10%);
+  $card-header-background: $card-background;
+  $card-hover-background: lighten($card-background, 10%);
+  $card-image-background: #DBD199;
+  $card-image-hover-background: lighten($card-image-background, 5%);
+  $card-margin: 1em;
+  //////////////////////////////////////////////////////////////////////////////////
+
+  background-color: $card-background;
+  border-radius: $base-border-radius;
+  border: $card-border;
+  box-shadow: 0 2px 4px darken($base-background-color, 10%);
+  height: 300px;
+  margin-bottom: $base-spacing;
+
+  .card-image {
+
+    margin: $base-spacing;
+
+    img {
+      border-radius: $base-border-radius;
+      width: 90px;
+      height: 90px;
+    }
+  }
+
+  .card-info {
+    height: 167px;
+    overflow: auto;
+  }
+
+}
+

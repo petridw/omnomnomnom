@@ -18,18 +18,34 @@ function HomeController($http, $resource) {
   vm.attribution = "";
 
   vm.search = function() {
-    Recipes.get({keywords: vm.keywords, ingredients: vm.ingredients}, function(results) {
-      vm.recipes = results;
-      vm.searchResults = true;
-      console.log(results);
-      vm.attribution = results.attribution.html;
-    });
+
+    $http({
+      url: '/api/recipes',
+      method: 'GET',
+      params: {keywords: vm.keywords, "ingredients[]": vm.ingredients}
+      })
+      .success(function(data, status, headers, config) {
+        // this callback will be called asynchronously
+        // when the response is available
+        console.log(data);
+        vm.recipes = data;
+        vm.searchResults = true;
+        console.log("Successful search");
+      })
+      .error(function(data, status, headers, config) {
+        // called asynchronously if an error occurs
+        // or server returns response with an error status.
+        console.log("There was an error processing the api call.");
+      });
+
   };
 
+
   vm.addIngredient = function() {
-    if (vm.ingredient !== "") {
+    if ((vm.ingredient !== "") && (vm.ingredients.indexOf(vm.ingredient) === -1)){
       vm.ingredients.push(vm.ingredient);
       vm.ingredient = "";
+      vm.search();
     }
   };
 

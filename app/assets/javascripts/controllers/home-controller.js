@@ -16,9 +16,10 @@ function HomeController($http, $resource) {
   vm.ingredients = [];
   vm.searchResults = false;
   vm.attribution = "";
+  vm.loading = false;
 
   vm.search = function() {
-
+    vm.loading = true;
     $http({
       url: '/api/recipes',
       method: 'GET',
@@ -27,6 +28,7 @@ function HomeController($http, $resource) {
       .success(function(data, status, headers, config) {
         // this callback will be called asynchronously
         // when the response is available
+        vm.loading = false;
         console.log(data);
         vm.recipes = data;
         vm.searchResults = true;

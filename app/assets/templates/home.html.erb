@@ -1,62 +1,65 @@
-<!-- -------------------- Header -------------------- -->
-<header class="row">
-  <h1 class="text-center col-sm-6 col-sm-offset-3">
-    omnomalizer
-  </h1>
-</header>
-
-
 <!-- -------------------- Search Form -------------------- -->
 <section class="row">
   <form>
+
     <div class="form-group col-sm-6 col-sm-offset-3">
       <label for="keywords" class="sr-only">Keywords</label>
       <input type="text" ng-model="vm.keywords" name="keywords" autofocus class="form-control" placeholder="Recipe name or keyword">
     </div>
-    <div ng-repeat="ingredient in vm.ingredients" class="form-group col-sm-6 col-sm-offset-3 text-center">
+
+    <div ng-if="vm.ingredients.length > 0" ng-repeat="ingredient in vm.ingredients" class="form-group col-sm-6 col-sm-offset-3 text-center">
       {{ingredient}}
     </div>
-    <div class="form-group col-sm-6 col-sm-offset-3 text-center">
+
+    <div class="form-group col-sm-5 col-sm-offset-3 text-center">
       <label for="ingredients" class="sr-only">Ingredients</label>
       <input type="text" ng-model="vm.ingredient" name="ingredient" class="form-control" placeholder="Ingredient to include, e.g. butter">
-      <button ng-click="vm.addIngredient()" class="btn btn-primary">Add Ingredient</button>
     </div>
+    <div class="form-group col-sm-1 text-center">
+      <button ng-click="!vm.ingredient || vm.addIngredient()" class="btn btn-default">
+        <!-- <span class="glyphicon glyphicon-plus"></span> -->
+        <i class="fa fa-plus"></i>
+      </button>
+    </div>
+
     <div class="form-group col-sm-6 col-sm-offset-3 text-center">
-      <button ng-click="vm.search()" class="btn btn-primary btn-lg">
-        Search
+      <button type="submit" ng-click="vm.search()" class="btn btn-primary btn-lg">
+        get cooking <i class="fa fa-cutlery"></i>
       </button>
     </div>
   </form>
 </section>
 
 
-<!-- -------------------- Show Recipes -------------------- -->
+<!-- -------------------- Top Recipe -------------------- -->
+<section ng-if="vm.searchResults" class="row text-center">
+  
+</section>
+
+<!-- -------------------- List of Recipes -------------------- -->
 <section ng-if="vm.searchResults" class="row text-center">
 
   <div ng-repeat="recipe in vm.recipes" class="col-sm-3">
     <div class="card">
-      <div class="card-image">
-        <img ng-src="{{recipe['imageUrlsBySize']['90'] || 'http://upload.wikimedia.org/wikipedia/commons/thumb/a/ac/No_image_available.svg/300px-No_image_available.svg.png'}}" alt="{{recipe.recipeName}} image" >
-      </div>
-      <div class="card-info">
+      <div class="card-wrapper">
         <div class="card-header">
+          <div class="card-image">
+            <img ng-src="{{recipe['imageUrlsBySize']['90'] || 'http://upload.wikimedia.org/wikipedia/commons/thumb/a/ac/No_image_available.svg/300px-No_image_available.svg.png'}}" alt="{{recipe.recipeName}} image" >
+          </div>
           {{recipe.recipeName}}
-          <p><em>{{ recipe.sourceDisplayName }}</em></p>
+          <p>{{ recipe.sourceDisplayName }}</p>
         </div>
-        <div class="card-rating">
-          Rating: {{recipe.rating}}
-        </div>
-        <div class="card-ingredients">
-          <p>
-            {{recipe.ingredients.join(", ")}}
-          </p>
+        <div class="card-info">
+          <div class="card-rating">
+            Rating: {{recipe.rating}}
+          </div>
+          <div class="card-ingredients">
+            <p>
+              <span ng-class="{'have-ingredient': (vm.ingredients.indexOf(ingredient) !== -1)}" ng-repeat="ingredient in recipe.ingredients">{{ingredient}} </span>
+            </p>
+          </div>
         </div>
       </div>
     </div>
   </div>
-</section>
-
-<!-- -------------------- Attribution -------------------- -->
-<section class="row text-center">
-  Recipe search powered by<a href='http://www.yummly.com/recipes'><img alt='Yummly' src='http://static.yummly.com/api-logo.png'/></a>
 </section>

@@ -2,7 +2,10 @@
 @import "bootstrap-sprockets";
 @import "bootstrap";
 
+@import "font-awesome";
 @import "variables";
+
+@import "layout.scss";
 @import "elements.scss";
 @import "search.scss";
 @import "cards.scss"

@@ -3,6 +3,7 @@ module Api
 
     API_URL = "http://api.yummly.com/v1/api"
     MAX_RESULT = 250
+    LIMIT_TO = 12
 
     def recipes
 
@@ -40,7 +41,7 @@ module Api
 
       recipes = response['matches']
       recipes.sort! { |a,b| b['rating'] <=> a['rating'] }
-      render json: recipes.take(20).to_json
+      render json: recipes.take(LIMIT_TO).to_json
     end
 
     def recipe

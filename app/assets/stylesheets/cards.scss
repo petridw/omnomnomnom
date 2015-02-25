@@ -17,14 +17,16 @@
   $card-image-background: #DBD199;
   $card-image-hover-background: lighten($card-image-background, 5%);
   $card-margin: 1em;
+  $card-ingredient-color: #56A845;
   //////////////////////////////////////////////////////////////////////////////////
 
   background-color: $card-background;
   border-radius: $base-border-radius;
   border: $card-border;
   box-shadow: 0 2px 4px darken($base-background-color, 10%);
-  height: 300px;
+  height: 350px;
   margin-bottom: $base-spacing;
+  overflow: auto;
 
   .card-image {
 
@@ -37,9 +39,40 @@
     }
   }
 
+  .card-wrapper {
+    display: flex;
+    min-height: 100%;
+    flex-direction: column;
+  }
+
+  .card-header {
+    border-bottom: $card-border;
+    border-radius: $base-border-radius $base-border-radius 0 0;
+    font-weight: bold;
+    line-height: 1.5em;
+    padding: ($base-spacing / 3) ($base-spacing / 2);
+    p {
+      font-weight: 500;
+      font-size: 0.9em;
+    }
+  }
+
   .card-info {
-    height: 167px;
-    overflow: auto;
+    flex: 1;
+  }
+
+  .card-ingredients {
+    margin: 0 7px 0 7px;
+    overflow: hidden;
+    .have-ingredient {
+      font-weight: bold;
+      color: #56A845;
+    }
+  }
+
+  &:focus,
+  &:hover {
+    background-color: $card-hover-background;
   }
 
 }

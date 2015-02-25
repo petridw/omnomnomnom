@@ -47,6 +47,7 @@ function HomeController($http, $resource) {
       vm.ingredient = "";
       vm.search();
     }
+
   };
 
 }

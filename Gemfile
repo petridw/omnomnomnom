@@ -25,23 +25,18 @@ gem 'sdoc', '~> 0.4.0', group: :doc
 
 # For Angular Rails!
 gem 'angularjs-rails'
+# For Angular Rails Templates that work with the asset pipeline
 gem 'angular-rails-templates'
-
 # For Bootstrap!
 gem 'bootstrap-sass'
-
 # Protect the keys!
 gem 'figaro'
-
 # Party on HTTP Calls!
 gem 'httparty'
-
 # For Heroku
 gem 'rails_12factor', group: :production
-
 # For sick icons
 gem 'font-awesome-rails'
-
 # For faster Heroku server
 gem 'passenger'
 

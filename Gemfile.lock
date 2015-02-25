@@ -69,6 +69,7 @@ GEM
       execjs
     coffee-script-source (1.9.1)
     columnize (0.9.0)
+    daemon_controller (1.2.0)
     debug_inspector (0.0.2)
     debugger-linecache (1.2.0)
     diff-lcs (1.2.5)
@@ -107,6 +108,10 @@ GEM
     multi_xml (0.5.5)
     nokogiri (1.6.6.2)
       mini_portile (~> 0.6.0)
+    passenger (4.0.59)
+      daemon_controller (>= 1.2.0)
+      rack
+      rake (>= 0.8.1)
     pg (0.18.1)
     phantomjs (1.9.8.0)
     rack (1.6.0)
@@ -210,6 +215,7 @@ DEPENDENCIES
   httparty
   jasmine!
   jquery-rails
+  passenger
   pg
   rails (= 4.2.0)
   rails_12factor

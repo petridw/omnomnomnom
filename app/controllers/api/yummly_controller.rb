@@ -41,7 +41,16 @@ module Api
 
       recipes = response['matches']
       recipes.sort! { |a,b| b['rating'] <=> a['rating'] }
-      render json: recipes.take(LIMIT_TO).to_json
+
+      # set up a few extra key/value pairs which will be used by angular
+      recipes_short_list = recipes.take(LIMIT_TO)
+      recipes_short_list.each do |recipe|
+        recipe['isSelected'] = false
+        recipe['isLoading'] = false
+        recipe['expandedInfo'] = nil
+      end
+
+      render json: recipes_short_list.to_json
     end
 
     def recipe

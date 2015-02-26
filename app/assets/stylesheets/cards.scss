@@ -28,52 +28,75 @@
   margin-bottom: $base-spacing;
   overflow: auto;
 
-  .card-image {
-
-    margin: $base-spacing;
-
-    img {
-      border-radius: $base-border-radius;
-      width: 90px;
-      height: 90px;
-    }
-  }
-
-  .card-wrapper {
+  .card-narrow {
     display: flex;
     min-height: 100%;
     flex-direction: column;
-  }
+  
+    .card-image {
 
-  .card-header {
-    border-bottom: $card-border;
-    border-radius: $base-border-radius $base-border-radius 0 0;
-    font-weight: bold;
-    line-height: 1.5em;
-    padding: ($base-spacing / 3) ($base-spacing / 2);
-    p {
-      font-weight: 500;
-      font-size: 0.9em;
+      margin: $base-spacing;
+
+      img {
+        border-radius: $base-border-radius;
+        width: 90px;
+        height: 90px;
+      }
     }
-  }
 
-  .card-info {
-    flex: 1;
-  }
-
-  .card-ingredients {
-    margin: 0 7px 0 7px;
-    overflow: hidden;
-    .have-ingredient {
+    .card-header {
+      border-bottom: $card-border;
+      border-radius: $base-border-radius $base-border-radius 0 0;
       font-weight: bold;
-      color: #56A845;
+      line-height: 1.5em;
+      padding: ($base-spacing / 3) ($base-spacing / 2);
+
+
+      .card-title {
+        display: inline-block;
+      }
+
+
+      p {
+        font-weight: 500;
+        font-size: 0.9em;
+      }
+    }
+
+    .card-info {
+      margin-top: 5px;
+      flex: 1;
+    }
+
+    .card-ingredients {
+      margin: 0 7px 0 7px;
+      overflow: hidden;
+      .have-ingredient {
+        font-weight: bold;
+        color: #56A845;
+      }
+    }
+
+    &:focus,
+    &:hover {
+      background-color: $card-hover-background;
     }
   }
 
-  &:focus,
-  &:hover {
-    background-color: $card-hover-background;
+  .card-wide {
+    // !!! change to fill space horizontally
+
+    padding: 0;
+    overflow: hidden;
+
+    .card-header {
+      text-align: left;
+      img {
+        max-width: 300px;
+      }
+    }
   }
 
 }
+
 

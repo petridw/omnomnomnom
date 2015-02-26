@@ -4,7 +4,7 @@ Rails.application.routes.draw do
 
   namespace :api do
     get '/recipes' => 'yummly#recipes'
-    get 'recipe/:id' => 'yummly#recipe'
+    get '/recipe' => 'yummly#recipe'
   end
 
 end

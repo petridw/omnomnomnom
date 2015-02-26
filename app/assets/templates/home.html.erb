@@ -1,3 +1,4 @@
+
 <!-- -------------------- Search Form -------------------- -->
 <section class="row">
   <form>
@@ -33,41 +34,74 @@
 <!-- -------------------- Spinner -------------------- -->
 <section ng-if="vm.loading" class="row">
   <div class="col-sm-2 col-sm-offset-5 text-center spinner">
-    <p>Finding you some sweet sweet bear meat</p>
+    <p>Finding you something sweet sweet like bear meat</p>
     <i class="fa fa-spinner fa-pulse fa-4x"></i>
   </div>
-</section>
-
-
-<!-- -------------------- Top Recipe -------------------- -->
-<section ng-if="vm.searchResults" class="row text-center">
-  
 </section>
 
 <!-- -------------------- List of Recipes -------------------- -->
 <section ng-if="vm.searchResults" class="row text-center">
 
-  <div ng-repeat="recipe in vm.recipes" class="col-sm-3">
-    <div class="card">
-      <div class="card-wrapper">
+  <!-- selected-card class can override all normal card styles bc of specificity of the css selector -->
+  <div  ng-repeat="(key, recipe) in vm.recipes" 
+        ng-class="{true: 'selected-card col-lg-6 col-md-8 col-sm-12', false: 'col-lg-3 col-md-4 col-sm-6'}[recipe.isSelected]">
+    <div class="card" ng-click="vm.clickRecipe(key)">
+
+      <!-- when card is not selected -->
+      <div class="card-narrow" ng-if="!recipe.isSelected" >
+
+        <!-- !!! change header so that image and text are side by side taking up half the space in the card -->
         <div class="card-header">
           <div class="card-image">
-            <img ng-src="{{recipe['imageUrlsBySize']['90'] || 'http://upload.wikimedia.org/wikipedia/commons/thumb/a/ac/No_image_available.svg/300px-No_image_available.svg.png'}}" alt="{{recipe.recipeName}} image" >
+            <img class="" ng-src="{{ recipe['imageUrlsBySize']['90'] || vm.noImageUrl }}" alt="{{recipe.recipeName}} image" >
           </div>
-          {{recipe.recipeName}}
-          <p>{{ recipe.sourceDisplayName }}</p>
+          <div class="card-title">
+            {{recipe.recipeName}}
+            <p>{{ recipe.sourceDisplayName }}</p>
+          </div>
         </div>
         <div class="card-info">
+          <!-- !!! change rating to display as gold/gray stars -->
           <div class="card-rating">
             Rating: {{recipe.rating}}
           </div>
           <div class="card-ingredients">
             <p>
+              <!-- !!! change indexOf check to a hasIngredient check -->
               <span ng-class="{'have-ingredient': (vm.ingredients.indexOf(ingredient) !== -1)}" ng-repeat="ingredient in recipe.ingredients">{{ingredient}} </span>
             </p>
           </div>
         </div>
       </div>
+
+      <!-- when card is selected -->
+      <div class="card-wide" ng-if="recipe.isSelected">
+        
+        <!-- show spinner while api call still running -->
+        <div ng-if="recipe.isLoading" class="text-center spinner">
+          <p>Hold up a sec while we wrangle this recipe</p>
+          <i class="fa fa-spinner fa-pulse fa-4x"></i>
+        </div>
+
+        <!-- show card content once it's loaded -->
+        <div ng-if="!recipe.isLoading">
+          <div class="card-header">
+            <a  ng-click="$event.stopPropagation();" 
+                ng-href="{{ recipe.expandedInfo.source.sourceRecipeUrl }}">
+              <img ng-src="{{ recipe.expandedInfo.images[0].imageUrlsBySize['360'] || vm.noImageUrl }}" alt="{{recipe.recipeName}} large image">
+            </a>
+            {{recipe.recipeName}}
+            <a  ng-click="$event.stopPropagation();" 
+                ng-href="{{recipe.expandedInfo.source.sourceSiteUrl}}">
+              <p>{{recipe.sourceDisplayName}}</p>
+            </a>
+
+          </div>
+        </div>
+
+      </div>
+
+
     </div>
   </div>
 </section>

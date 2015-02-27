@@ -3,6 +3,7 @@
 <section class="row">
   <form>
 
+    <!-- keywords input -->
     <div class="form-group col-sm-6 col-sm-offset-3">
       <label for="keywords" class="sr-only">Keywords</label>
       <input type="text" ng-model="vm.keywords" name="keywords" autofocus class="form-control" placeholder="Recipe name or keyword">
@@ -12,17 +13,22 @@
       {{ingredient}}
     </div>
 
+    <!-- ingredients input -->
     <div class="form-group col-sm-5 col-sm-offset-3 text-center">
       <label for="ingredients" class="sr-only">Ingredients</label>
-      <input type="text" ng-model="vm.ingredient" name="ingredient" class="form-control" placeholder="Ingredient to include, e.g. butter">
+<!--       <input type="text" ng-model="vm.ingredient" name="ingredient" class="form-control" placeholder="Ingredient to include, e.g. butter"> -->
+      <input type="text" ng-model="vm.ingredient" typeahead="ingredient as ingredient.searchValue for ingredient in vm.ingredientsData | filter:$viewValue | limitTo:8" typeahead-on-select="vm.onSelect($item, $model, $label)" class="form-control" placeholder="Ingredient to include, e.g. butter">
+      <input type="text" ng-model="vm.ingredient">
+      <!-- <input type="text" ng-model="customSelected" placeholder="Custom template" typeahead="state as state.name for state in statesWithFlags | filter:{name:$viewValue}" typeahead-template-url="customTemplate.html" class="form-control"> -->
+
     </div>
     <div class="form-group col-sm-1 text-right">
       <button ng-click="!vm.ingredient || vm.addIngredient()" class="btn btn-default text-center">
-        <!-- <span class="glyphicon glyphicon-plus"></span> -->
         <i class="fa fa-plus"></i>
       </button>
     </div>
 
+    <!-- submit form -->
     <div class="form-group col-sm-6 col-sm-offset-3 text-center">
       <button type="submit" ng-click="vm.search()" class="btn btn-primary btn-lg">
         get cooking <i class="fa fa-cutlery"></i>

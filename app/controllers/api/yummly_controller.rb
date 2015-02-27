@@ -82,6 +82,8 @@ module Api
 
     def ingredients
 
+      # !!! Set up to store in postgres db and only update when data is a week or so old
+
       request = "#{API_URL}/metadata/ingredient"
       options = {
         query:

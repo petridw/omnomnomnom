@@ -13,12 +13,13 @@
 //= require jquery
 //= require jquery_ujs
 
+//= require bootstrap-sprockets
+
 //= require angular
 //= require angular-resource
 //= require angular-ui-router
 //= require angular-rails-templates
-
-//= require bootstrap-sprockets
+//= ui-bootstrap-tpls-0.12.1.min
 
 //= require twitter/typeahead.min
 

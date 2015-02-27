@@ -4,13 +4,14 @@ angular
     '$http',
     'RecipesList',
     'Recipe',
+    'IngredientsList',
     '$state',
     '$stateParams',
     HomeController
   ]);
 
 
-function HomeController($http, RecipesList, Recipe, $state, $stateParams) {
+function HomeController($http, RecipesList, Recipe, IngredientsList, $state, $stateParams) {
 
   var vm = this;
 
@@ -21,7 +22,12 @@ function HomeController($http, RecipesList, Recipe, $state, $stateParams) {
   vm.searchResults = false;
   vm.attribution = "";
   vm.loading = false;
+  vm.ingredientsData = [];
   vm.noImageUrl = "http://upload.wikimedia.org/wikipedia/commons/thumb/a/ac/No_image_available.svg/300px-No_image_available.svg.png";
+
+  new IngredientsList()
+    .success(function(data) { vm.ingredientsData = data; console.log(data); })
+    .error(function(data) { console.log("Error loading ingredients data"); });
 
 
   // Set vm.ingredients and vm.keywords if they exist in params
@@ -64,10 +70,7 @@ function HomeController($http, RecipesList, Recipe, $state, $stateParams) {
       });
   }
 
-  // vm.search = function() {
-
-
-  // };
+  
 
   vm.search = function() {
     $state.go('home', {keywords: vm.keywords, ingredients: vm.ingredients.join(",")});
@@ -104,6 +107,12 @@ function HomeController($http, RecipesList, Recipe, $state, $stateParams) {
     }
   };
 
+
+  // !!! figure out a way to do this without the callback?
+  // should be possible with custom models or tempalates or maybe a more specific input
+  vm.onSelect = function ($item, $model, $label) {
+    vm.ingredient = $item.searchValue;
+  };
 
 
   // !!! clean this up and stick it somewhere

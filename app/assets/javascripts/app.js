@@ -1,5 +1,5 @@
 angular
-  .module('goodbelly', ['ngResource', 'ui.router', 'templates'])
+  .module('goodbelly', ['ngResource', 'ui.router', 'templates', 'ui.bootstrap'])
 
   .config([
     '$stateProvider',

@@ -2,8 +2,8 @@ module Api
   class YummlyController < ApplicationController
 
     API_URL = "http://api.yummly.com/v1/api"
-    MAX_RESULT = 250
-    LIMIT_TO = 12
+    MAX_RESULT = 500
+    LIMIT_TO = 500
 
     def recipes
 

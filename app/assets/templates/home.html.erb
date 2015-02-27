@@ -10,12 +10,12 @@
     </div>
 
     <!-- have ingredients list -->
-    <div class="have-ingredient-list form-group col-sm-6 col-sm-offset-3 text-center" ng-if="vm.ingredients.length > 0">
+    <div class="have-ingredient-list form-group col-sm-6 col-sm-offset-3 text-center" ng-if="vm.ingredientList.ingredients.length > 0">
       <span class="have-ingredient"
-            ng-repeat="ingredient in vm.ingredients" 
+            ng-repeat="ingredient in vm.ingredientList.ingredients" 
             ng-mouseenter="vm.hoveredIngredient = $index" 
             ng-mouseleave="vm.hoveredIngredient = -1" 
-            ng-click="vm.removeIngredient($index)">
+            ng-click="vm.removeIngredient(ingredient)">
         {{ingredient}}
         <i class="fa fa-minus-square ingredient-hover" ng-if="vm.hoveredIngredient === $index"></i>
         </span>
@@ -81,8 +81,12 @@
           </div>
           <div class="card-ingredients">
             <p>
-              <!-- !!! change indexOf check to a hasIngredient check -->
-              <span ng-class="{'have-ingredient': vm.hasIngredient(ingredient)}" ng-repeat="ingredient in recipe.ingredients">{{ingredient}}<span class="list-comma">{{$last ? '' : ', '}}</span></span>
+              <span ng-class="{'have-ingredient': vm.ingredientList.hasIngredientMatch(ingredient)}" 
+                    ng-repeat="ingredient in recipe.ingredients">
+                {{ingredient}}
+                <!-- Place unstyled commas in between ingredients, unless last ingredient -->
+                <span class="list-comma">{{$last ? '' : ', '}}</span>
+              </span>
             </p>
           </div>
         </div>

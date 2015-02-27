@@ -5,21 +5,22 @@ angular
     'RecipesList',
     'Recipe',
     'IngredientMetadata',
+    'IngredientList',
     '$state',
     '$stateParams',
     HomeController
   ]);
 
 
-function HomeController($http, RecipesList, Recipe, IngredientMetadata, $state, $stateParams) {
+function HomeController($http, RecipesList, Recipe, IngredientMetadata, IngredientList, $state, $stateParams) {
 
   var vm = this;
 
   // Data store:
-  vm.keywords           = "";     // holds keywords that were searched for
-  vm.ingredients        = [];     // holds list of included ingredients
-  vm.ingredientsData    = [];     // holds ingredient metadata from yummly
-  vm.recipes            = [];     // holds list of returned recipes from api call
+  vm.keywords           = "";                 // holds keywords that were searched for
+  vm.ingredientsData    = [];                 // holds ingredient metadata from yummly
+  vm.recipes            = [];                 // holds list of returned recipes from api call
+  vm.ingredientList = new IngredientList(""); // holds list of included ingredients
 
   // State control:
   vm.hoveredIngredient  = -1;     // stores state of which ingredient is being hovered, if any
@@ -31,11 +32,11 @@ function HomeController($http, RecipesList, Recipe, IngredientMetadata, $state, 
 
   // Get a list of searchable ingredients
   new IngredientMetadata()
-    .success(function(data) { vm.ingredientsData = data; console.log(data); })
+    .success(function(data) { vm.ingredientsData = data; })
     .error(function(data) { console.log("Error loading ingredients data"); });
 
   // Set vm.ingredients and vm.keywords if they exist in params
-  if ($stateParams.ingredients) { vm.ingredients = $stateParams.ingredients.split(','); }
+  if ($stateParams.ingredients) { vm.ingredientList = new IngredientList($stateParams.ingredients); }
   if ($stateParams.keywords) { vm.keywords = $stateParams.keywords; }
 
   // If there are are keywords or ingredients in the params, then do a recipe search
@@ -52,7 +53,8 @@ function HomeController($http, RecipesList, Recipe, IngredientMetadata, $state, 
     // a new search must be run.
 
     // get the list of recipes for the provided keyword / ingredients
-    new RecipesList(vm.keywords, vm.ingredients)
+    // - RecipesList constructor accepts a string for keywords and an array for ingredients
+    new RecipesList(vm.keywords, vm.ingredientList.ingredients)
       .success(function(data, status, headers, config) {
         vm.loading = false;       // successful result so turn off loading spinner
         vm.recipes = data;        // set recipe list
@@ -68,19 +70,7 @@ function HomeController($http, RecipesList, Recipe, IngredientMetadata, $state, 
   // It simply goes to the 'home' state with the current keywords and ingredients as params.
   // Once the home state loads up the search will take place, and the keywords / ingredients
   // will be in the URL! This makes search results bookmarkable.
-  vm.search = function() { $state.go('home', {keywords: vm.keywords, ingredients: vm.ingredients.join(",")}); };
-
-
-  // Function gets called when the "add ingredient" button is pressed.
-  // If the ingredient isn't in the ingredient list already then it gets added and
-  // then a new search is kicked off.
-  vm.addIngredient = function() {
-    if ((vm.ingredient !== "") && (vm.ingredients.indexOf(vm.ingredient) === -1)){
-      vm.ingredients.push(vm.ingredient);
-      vm.ingredient = "";
-      vm.search();
-    }
-  };
+  vm.search = function() { $state.go('home', {keywords: vm.keywords, ingredients: vm.ingredientList.to_param()}); };
 
 
   // Function gets called when a recipe is clicked.
@@ -108,34 +98,27 @@ function HomeController($http, RecipesList, Recipe, IngredientMetadata, $state, 
   };
 
 
+  // Function gets called when the "add ingredient" button is pressed.
+  // If the ingredient isn't in the ingredient list already then it gets added and
+  // then a new search is kicked off.
+  vm.addIngredient = function() {
+    if ((vm.ingredient !== "") && (!vm.ingredientList.hasExactIngredient(vm.ingredient))) {
+      vm.ingredientList.addIngredient(vm.ingredient);
+      vm.search();
+    }
+  };
+
+  // Simply removes ingredient and initiates a new search
+  vm.removeIngredient = function(ingredient) {
+    vm.ingredientList.removeIngredient(ingredient);
+    vm.search();
+  };
+
   // callback for selecting a field from the typeahead dropdown
   // !!! figure out a way to do this without the callback?
   vm.onSelect = function ($item, $model, $label) {
     vm.ingredient = $item.searchValue;
   };
 
-
-  // !!! clean this up and stick it somewhere
-  // need to figure out how to implement the ingredient metadata
-  vm.hasIngredient = function(ingredient) {
-    // figure out if our ingredients list includes the ingredient.
-    // Note: the ingredient in our list may not exactly match this ingredient!
-    // need to check each string in the ingredient and see if it exists in vm.ingredients
-    ingredientWords = ingredient.split(" ");
-
-    for (var i = 0; i < ingredientWords.length; i++) {
-      //check if word is in our ingredient list
-      for (var ii = 0; ii < vm.ingredients.length; ii ++) {
-        //check each word in ingredient
-        vmWords = vm.ingredients[ii].split(" ");
-        for (var j = 0; j < vmWords.length; j ++) {
-          if (ingredientWords[i] === vmWords[j]) {
-            return true;
-          }
-        }
-      }
-    }
-    return false;
-  };
 
 }

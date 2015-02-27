@@ -47,7 +47,7 @@
         ng-class="{true: 'selected-card col-lg-6 col-md-8 col-sm-12', false: 'col-lg-3 col-md-4 col-sm-6'}[recipe.isSelected]">
     <div class="card" ng-click="vm.clickRecipe(key)">
 
-      <!-- when card is not selected -->
+      <!-- only displayed when the card is unselected -->
       <div class="card-narrow" ng-if="!recipe.isSelected" >
 
         <!-- !!! change header so that image and text are side by side taking up half the space in the card -->
@@ -74,7 +74,7 @@
         </div>
       </div>
 
-      <!-- when card is selected -->
+      <!-- only displayed when this card is selected -->
       <div class="card-wide" ng-if="recipe.isSelected">
         
         <!-- show spinner while api call still running -->
@@ -85,19 +85,17 @@
 
         <!-- show card content once it's loaded -->
         <div ng-if="!recipe.isLoading">
+
           <div class="card-header">
             <img ng-src="{{ recipe.expandedInfo.images[0].imageUrlsBySize['360'] || vm.noImageUrl }}" alt="{{recipe.recipeName}} large image">
-            <a  ng-click="$event.stopPropagation();" 
-                ng-href="{{ recipe.expandedInfo.source.sourceRecipeUrl }}">
-              View recipe steps at source
-            </a>
-            {{recipe.recipeName}}
-            <a  ng-click="$event.stopPropagation();" 
-                ng-href="{{recipe.expandedInfo.source.sourceSiteUrl}}">
-              <p>{{recipe.sourceDisplayName}}</p>
-            </a>
-
+            <div class="card-header-text">
+              <h4>{{recipe.recipeName}}</h4>
+              <a  ng-click="$event.stopPropagation();" ng-href="{{ recipe.expandedInfo.source.sourceRecipeUrl }}">
+                <p>View recipe steps at {{recipe.sourceDisplayName}}</p>
+              </a>
+            </div>
           </div>
+
         </div>
 
       </div>

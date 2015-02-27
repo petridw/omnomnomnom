@@ -31,25 +31,34 @@ module Api
         }
       }
 
-      if keywords == "test"
-        request = "https://gist.githubusercontent.com/petridw/6b660cc8df76778feac6/raw/9633cf8ba7db96bed56e0072932326e3cd0328fd/yummly_example"
-        response = JSON.parse(HTTParty.get(request))
-      else
-        response = HTTParty.get(request, options)
+      begin
+
+        if keywords == "test"
+          # for testing the api without actually calling yummly
+          request = "https://gist.githubusercontent.com/petridw/6b660cc8df76778feac6/raw/9633cf8ba7db96bed56e0072932326e3cd0328fd/yummly_example"
+          response = JSON.parse(HTTParty.get(request))
+        else
+          response = HTTParty.get(request, options)
+        end
+
+        recipes = response['matches']
+        recipes.sort! { |a,b| b['rating'] <=> a['rating'] }
+
+        # set up a few extra key/value pairs which will be used by angular
+        recipes = recipes.take(LIMIT_TO)
+        recipes.each do |recipe|
+          recipe['isSelected'] = false
+          recipe['isLoading'] = false
+          recipe['expandedInfo'] = nil
+        end
+
+      rescue Zlib::DataError => e
+        recipes = e.inspect
+      rescue Exception => e
+        recipes = "Error: #{e}"
       end
 
-      recipes = response['matches']
-      recipes.sort! { |a,b| b['rating'] <=> a['rating'] }
-
-      # set up a few extra key/value pairs which will be used by angular
-      recipes_short_list = recipes.take(LIMIT_TO)
-      recipes_short_list.each do |recipe|
-        recipe['isSelected'] = false
-        recipe['isLoading'] = false
-        recipe['expandedInfo'] = nil
-      end
-
-      render json: recipes_short_list.to_json
+      render json: recipes.to_json
 
       # alternate render for testing that proper params are being passed in from angular:
       # render json: params.inspect.to_json

@@ -23,7 +23,7 @@
   background-color: $card-background;
   border-radius: $base-border-radius;
   border: $card-border;
-  box-shadow: 0 2px 4px darken($base-background-color, 10%);
+  // box-shadow: 0 2px 4px darken($base-background-color, 10%);
   height: 350px;
   margin-bottom: $base-spacing;
   overflow: auto;
@@ -90,8 +90,26 @@
     overflow: hidden;
 
     .card-header {
+
       text-align: left;
+
+      .card-header-text {
+        margin-left: 300px;
+        padding: 20px 15px;
+        text-align: center;
+
+        font-size: 1.2em;
+        font-weight: bold;
+
+        p {
+          padding-top: 1em;
+          font-weight: 500;
+          font-size: 0.9em;
+        }
+      }
+
       img {
+        float: left;
         max-width: 300px;
       }
     }

@@ -92,7 +92,9 @@ module Api
       }
 
       response = HTTParty.get(request, options)
-      render json: response.to_json
+
+      # cut off the beginning and end because jsonp adds some stuff json doesn't understand
+      render json: JSON.parse(response[27..-3])
 
     end
 

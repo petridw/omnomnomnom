@@ -20,5 +20,7 @@
 
 //= require bootstrap-sprockets
 
+//= require twitter/typeahead.min
+
 //= require_tree ../templates
 //= require_tree .

@@ -19,7 +19,6 @@ module Api
         ingredients = []
       end
 
-
       request = "#{API_URL}/recipes"
       options = { 
         query: 
@@ -51,6 +50,9 @@ module Api
       end
 
       render json: recipes_short_list.to_json
+
+      # alternate render for testing that proper params are being passed in from angular:
+      # render json: params.inspect.to_json
     end
 
     def recipe

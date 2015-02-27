@@ -1,16 +1,17 @@
 angular
   .module('goodbelly')
   .controller('HomeController', [
-    '$http', 
+    '$http',
+    '$state',
+    '$stateParams',
     HomeController
   ]);
 
 
-function HomeController($http) {
+function HomeController($http, $state, $stateParams) {
   var vm = this;
 
   vm.keywords = "";
-  vm.ingredients = [];
   vm.recipes = [];
   vm.selectedRecipes = [];
   vm.searchResults = false;
@@ -18,14 +19,30 @@ function HomeController($http) {
   vm.loading = false;
   vm.noImageUrl = "http://upload.wikimedia.org/wikipedia/commons/thumb/a/ac/No_image_available.svg/300px-No_image_available.svg.png";
 
-  vm.search = function() {
+  if ($stateParams.ingredients) {
+    console.log("setting vm.ingredients: " + $stateParams.ingredients);
+    console.log(typeof $stateParams.ingredients);
+    vm.ingredients = $stateParams.ingredients.split(',');
+    // array param version:
+    // vm.ingredients = $stateParams.ingredients;
+    console.log(vm.ingredients);
+  } else {
+    vm.ingredients = [];
+  }
+
+  // if there are state params then search
+  if ($stateParams.keywords || $stateParams.ingredients) {
+    console.log("CALLING HTTP GET ON RECIPES API WITH INGREDIENTS ARRAY:");
+    console.log(vm.ingredients);
+    vm.keywords = $stateParams.keywords;
     vm.loading = true;
     $http({
       url: '/api/recipes',
       method: 'GET',
-      params: {keywords: vm.keywords, "ingredients[]": vm.ingredients}
+      params: {keywords: vm.keywords, 'ingredients[]': vm.ingredients}
       })
       .success(function(data, status, headers, config) {
+        console.log(config);
         // this callback will be called asynchronously
         // when the response is available
         vm.loading = false;
@@ -40,12 +57,32 @@ function HomeController($http) {
         vm.loading = false;
         console.log(data);
       });
+  }
 
+  // vm.search = function() {
+
+
+  // };
+
+  vm.search = function() {
+    console.log("going to state home with keywords " + vm.keywords + " and ingredients " + vm.ingredients);
+    // var object = {
+    //   keywords: vm.keywords,
+    //   ingredients: []
+    // };
+    // for(var index in vm.ingredients){
+    //   object.ingredients.push(vm.ingredients[index]);
+    // }
+
+    $state.go('home', {keywords: vm.keywords, ingredients: vm.ingredients.join(",")});
+    // array params version:
+    // $state.go('home', {keywords: vm.keywords, 'ingredients': vm.ingredients, reload: true});
   };
 
   vm.addIngredient = function() {
     if ((vm.ingredient !== "") && (vm.ingredients.indexOf(vm.ingredient) === -1)){
       vm.ingredients.push(vm.ingredient);
+      console.log("ingredients array has", vm.ingredients);
       vm.ingredient = "";
       vm.search();
     }
@@ -82,6 +119,23 @@ function HomeController($http) {
   vm.hasIngredient = function(ingredient) {
     // figure out if our ingredients list includes the ingredient.
     // Note: the ingredient in our list may not exactly match this ingredient!
+    // need to check each string in the ingredient and see if it exists in vm.ingredients
+    ingredientWords = ingredient.split(" ");
+
+    for (var i = 0; i < ingredientWords.length; i++) {
+      //check if word is in our ingredient list
+      for (var ii = 0; ii < vm.ingredients.length; ii ++) {
+        //check each word in ingredient
+        vmWords = vm.ingredients[ii].split(" ");
+        for (var j = 0; j < vmWords.length; j ++) {
+          if (ingredientWords[i] === vmWords[j]) {
+            console.log(ingredientWords[i] + " equals " + vmWords[j]);
+            return true;
+          }
+        }
+      }
+    }
+    return false;
   };
 
 }

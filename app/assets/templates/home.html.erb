@@ -68,7 +68,7 @@
           <div class="card-ingredients">
             <p>
               <!-- !!! change indexOf check to a hasIngredient check -->
-              <span ng-class="{'have-ingredient': (vm.ingredients.indexOf(ingredient) !== -1)}" ng-repeat="ingredient in recipe.ingredients">{{ingredient}} </span>
+              <span ng-class="{'have-ingredient': vm.hasIngredient(ingredient)}" ng-repeat="ingredient in recipe.ingredients">{{ingredient}} </span>
             </p>
           </div>
         </div>
@@ -86,9 +86,10 @@
         <!-- show card content once it's loaded -->
         <div ng-if="!recipe.isLoading">
           <div class="card-header">
+            <img ng-src="{{ recipe.expandedInfo.images[0].imageUrlsBySize['360'] || vm.noImageUrl }}" alt="{{recipe.recipeName}} large image">
             <a  ng-click="$event.stopPropagation();" 
                 ng-href="{{ recipe.expandedInfo.source.sourceRecipeUrl }}">
-              <img ng-src="{{ recipe.expandedInfo.images[0].imageUrlsBySize['360'] || vm.noImageUrl }}" alt="{{recipe.recipeName}} large image">
+              View recipe steps at source
             </a>
             {{recipe.recipeName}}
             <a  ng-click="$event.stopPropagation();" 

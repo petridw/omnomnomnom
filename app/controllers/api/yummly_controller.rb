@@ -86,18 +86,15 @@ module Api
       options = {
         query:
         {
-          _app_id: ENV['yummly_app_id']
+          _app_id: ENV['yummly_app_id'],
+          _app_key: ENV['yummly_app_key']
         }
       }
 
+      response = HTTParty.get(request, options)
+      render json: response.to_json
+
     end
-
-
-    private
-      def auth
-        {query: {_app_id: ENV['yummly_app_id'], _app_key: ENV['yummly_app_key']}}
-      end
-
 
   end
 end

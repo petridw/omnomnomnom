@@ -39,6 +39,8 @@ gem 'rails_12factor', group: :production
 gem 'font-awesome-rails'
 # For faster Heroku server
 gem 'passenger'
+# For ingredient search metadata typeahead
+gem 'twitter-typeahead-rails'
 
 
 group :development, :test do

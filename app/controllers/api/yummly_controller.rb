@@ -79,5 +79,25 @@ module Api
       render json: response.to_json
 
     end
+
+    def ingredients
+
+      request = "#{API_URL}/metadata/ingredient"
+      options = {
+        query:
+        {
+          _app_id: ENV['yummly_app_id']
+        }
+      }
+
+    end
+
+
+    private
+      def auth
+        {query: {_app_id: ENV['yummly_app_id'], _app_key: ENV['yummly_app_key']}}
+      end
+
+
   end
 end

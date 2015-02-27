@@ -1,9 +1,9 @@
 angular
   .module('goodbelly')
-  .factory('IngredientsList', [
+  .factory('IngredientMetadata', [
     "$http",
     function($http) {
-      var IngredientsList = function(id) {
+      var IngredientMetadata = function(id) {
 
         return $http({
           url: '/api/ingredients',
@@ -12,6 +12,6 @@ angular
 
       };
 
-      return (IngredientsList);
+      return (IngredientMetadata);
     }
   ]);

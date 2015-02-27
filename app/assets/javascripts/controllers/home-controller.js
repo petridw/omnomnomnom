@@ -4,53 +4,41 @@ angular
     '$http',
     'RecipesList',
     'Recipe',
-    'IngredientsList',
+    'IngredientMetadata',
     '$state',
     '$stateParams',
     HomeController
   ]);
 
 
-function HomeController($http, RecipesList, Recipe, IngredientsList, $state, $stateParams) {
+function HomeController($http, RecipesList, Recipe, IngredientMetadata, $state, $stateParams) {
 
   var vm = this;
 
+  // Data store:
+  vm.keywords           = "";     // holds keywords that were searched for
+  vm.ingredients        = [];     // holds list of included ingredients
+  vm.ingredientsData    = [];     // holds ingredient metadata from yummly
+  vm.recipes            = [];     // holds list of returned recipes from api call
 
-  vm.keywords = "";
-  vm.recipes = [];
-  vm.selectedRecipes = [];
-  vm.searchResults = false;
-  vm.attribution = "";
-  vm.loading = false;
-  vm.ingredientsData = [];
+  // State control:
+  vm.hoveredIngredient  = -1;     // stores state of which ingredient is being hovered, if any
+  vm.searchResults      = false;  // controls whether results area shows
+  vm.loading            = false;  // controls whether loading spinner shows
+
   vm.noImageUrl = "http://upload.wikimedia.org/wikipedia/commons/thumb/a/ac/No_image_available.svg/300px-No_image_available.svg.png";
 
-  new IngredientsList()
+
+  // Get a list of searchable ingredients
+  new IngredientMetadata()
     .success(function(data) { vm.ingredientsData = data; console.log(data); })
     .error(function(data) { console.log("Error loading ingredients data"); });
 
-
   // Set vm.ingredients and vm.keywords if they exist in params
-  if ($stateParams.ingredients) {
-    vm.ingredients = $stateParams.ingredients.split(',');
-    // array param version:
-    // vm.ingredients = $stateParams.ingredients;
-  } else {
-    vm.ingredients = [];
-  }
+  if ($stateParams.ingredients) { vm.ingredients = $stateParams.ingredients.split(','); }
+  if ($stateParams.keywords) { vm.keywords = $stateParams.keywords; }
 
-  if ($stateParams.keywords) {
-    vm.keywords = $stateParams.keywords;
-  } else {
-    vm.keywords = "";
-  }
-
-  // This way doesn't work but would be less code:
-  // vm.ingredients = $stateParams.ingredients.split(',') || [];
-  // vm.keywords = $stateParams.keywords || "";
-
-
-  // get recipes list if there are keyword or ingredient params
+  // If there are are keywords or ingredients in the params, then do a recipe search
   if ($stateParams.keywords || $stateParams.ingredients) {
 
     // turn on loading spinner
@@ -65,50 +53,55 @@ function HomeController($http, RecipesList, Recipe, IngredientsList, $state, $st
 
     // get the list of recipes for the provided keyword / ingredients
     new RecipesList(vm.keywords, vm.ingredients)
-      // successful ajax return
       .success(function(data, status, headers, config) {
-        vm.loading = false;
-        vm.recipes = data;
-        vm.searchResults = true;
+        vm.loading = false;       // successful result so turn off loading spinner
+        vm.recipes = data;        // set recipe list
+        vm.searchResults = true;  // show search result section
       })
-      // error on ajax call
       .error(function(data, status, headers, config) {
-        vm.loading = false;
+        vm.loading = false;       // turn off loading spinner
+        console.log("Error loading recipe list. ", data);
       });
   }
 
-  
+  // Function gets called when the "search" button is pressed.
+  // It simply goes to the 'home' state with the current keywords and ingredients as params.
+  // Once the home state loads up the search will take place, and the keywords / ingredients
+  // will be in the URL! This makes search results bookmarkable.
+  vm.search = function() { $state.go('home', {keywords: vm.keywords, ingredients: vm.ingredients.join(",")}); };
 
-  vm.search = function() {
-    $state.go('home', {keywords: vm.keywords, ingredients: vm.ingredients.join(",")});
-    // array params version:
-    // $state.go('home', {keywords: vm.keywords, 'ingredients': vm.ingredients, reload: true});
-  };
 
+  // Function gets called when the "add ingredient" button is pressed.
+  // If the ingredient isn't in the ingredient list already then it gets added and
+  // then a new search is kicked off.
   vm.addIngredient = function() {
     if ((vm.ingredient !== "") && (vm.ingredients.indexOf(vm.ingredient) === -1)){
       vm.ingredients.push(vm.ingredient);
-      console.log("ingredients array has", vm.ingredients);
       vm.ingredient = "";
       vm.search();
     }
-
   };
 
+
+  // Function gets called when a recipe is clicked.
+  // If the recipe is now selected then it retrieves the expanded recipe data unless
+  // it's already been retrieved.
   vm.clickRecipe = function(key) {    
     vm.recipes[key].isSelected = !vm.recipes[key].isSelected;
 
     if ((vm.recipes[key].isSelected) && (vm.recipes[key].expandedInfo === null)) {
+
+      // Turn on this recipe's loading spinner
       vm.recipes[key].isLoading = true;
     
       new Recipe(vm.recipes[key].id)
         .success(function(data, status, headers, config) {
-          vm.recipes[key].isLoading = false;
-          vm.recipes[key].expandedInfo = data;
+          vm.recipes[key].isLoading = false;    // turn off loading spinner
+          vm.recipes[key].expandedInfo = data;  // give recipe its expanded data
         })
         .error(function(data, status, headers, config) {
-          vm.recipes[key].isLoading = false;
-          console.log(data);
+          vm.recipes[key].isLoading = false;    // turn off loading spinner
+          console.log("Error retrieving recipe data for " + vm.recipes[key] + ".", data);
         });
 
     }

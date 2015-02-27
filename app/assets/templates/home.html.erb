@@ -9,15 +9,26 @@
       <input type="text" ng-model="vm.keywords" name="keywords" autofocus class="form-control" placeholder="Recipe name or keyword">
     </div>
 
-    <div class="have-ingredient-list form-group col-sm-6 col-sm-offset-3" ng-if="vm.ingredients.length > 0">
-      <span ng-repeat="ingredient in vm.ingredients" class="have-ingredient">{{ingredient}} </span>
+    <!-- have ingredients list -->
+    <div class="have-ingredient-list form-group col-sm-6 col-sm-offset-3 text-center" ng-if="vm.ingredients.length > 0">
+      <span class="have-ingredient"
+            ng-repeat="ingredient in vm.ingredients" 
+            ng-mouseenter="vm.hoveredIngredient = $index" 
+            ng-mouseleave="vm.hoveredIngredient = -1" 
+            ng-click="vm.removeIngredient($index)">
+        {{ingredient}}
+        <i class="fa fa-minus-square ingredient-hover" ng-if="vm.hoveredIngredient === $index"></i>
+        </span>
     </div>
 
     <!-- ingredients input -->
     <div class="form-group col-sm-5 col-sm-offset-3 text-center">
       <label for="ingredients" class="sr-only">Ingredients</label>
-      <input type="text" ng-model="vm.ingredient" typeahead="ingredient as ingredient.searchValue for ingredient in vm.ingredientsData | filter:$viewValue | limitTo:10" typeahead-on-select="vm.onSelect($item, $model, $label)" class="form-control" placeholder="Ingredient to include, e.g. butter">
-
+      <input  typeahead="ingredient as ingredient.searchValue for ingredient in vm.ingredientsData | filter:$viewValue | limitTo:10" 
+              typeahead-on-select="vm.onSelect($item, $model, $label)" 
+              class="form-control" type="text"
+              placeholder="Ingredient to include, e.g. butter"
+              ng-model="vm.ingredient">
     </div>
     <div class="form-group col-sm-1 text-right">
       <button ng-click="!vm.ingredient || vm.addIngredient()" class="btn btn-default text-center">
@@ -71,7 +82,7 @@
           <div class="card-ingredients">
             <p>
               <!-- !!! change indexOf check to a hasIngredient check -->
-              <span ng-class="{'have-ingredient': vm.hasIngredient(ingredient)}" ng-repeat="ingredient in recipe.ingredients">{{ingredient}} </span>
+              <span ng-class="{'have-ingredient': vm.hasIngredient(ingredient)}" ng-repeat="ingredient in recipe.ingredients">{{ingredient}}<span class="list-comma">{{$last ? '' : ', '}}</span></span>
             </p>
           </div>
         </div>

@@ -56,6 +56,13 @@ function HomeController($http, RecipesList, Recipe, IngredientsList, $state, $st
     // turn on loading spinner
     vm.loading = true;
     
+    // !!! if there are already fewer than MAX_RESULT results, then this shouldn't call the api.
+    // the Api should only be called when more than MAX_RESULT results are coming back and thus
+    // it's more beneficial to hit yummly to get better rated recipes. Once there are under 250,
+    // it makes more sense to simply filter down these results as long as it's just a new ingredient
+    // that has been added. If an ingredient has been removed or the keywords have changed then
+    // a new search must be run.
+
     // get the list of recipes for the provided keyword / ingredients
     new RecipesList(vm.keywords, vm.ingredients)
       // successful ajax return

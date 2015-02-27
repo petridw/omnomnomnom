@@ -115,8 +115,8 @@ function HomeController($http, RecipesList, Recipe, IngredientsList, $state, $st
   };
 
 
+  // callback for selecting a field from the typeahead dropdown
   // !!! figure out a way to do this without the callback?
-  // should be possible with custom models or tempalates or maybe a more specific input
   vm.onSelect = function ($item, $model, $label) {
     vm.ingredient = $item.searchValue;
   };

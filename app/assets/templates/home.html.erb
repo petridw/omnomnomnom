@@ -17,8 +17,7 @@
     <div class="form-group col-sm-5 col-sm-offset-3 text-center">
       <label for="ingredients" class="sr-only">Ingredients</label>
 <!--       <input type="text" ng-model="vm.ingredient" name="ingredient" class="form-control" placeholder="Ingredient to include, e.g. butter"> -->
-      <input type="text" ng-model="vm.ingredient" typeahead="ingredient as ingredient.searchValue for ingredient in vm.ingredientsData | filter:$viewValue | limitTo:8" typeahead-on-select="vm.onSelect($item, $model, $label)" class="form-control" placeholder="Ingredient to include, e.g. butter">
-      <input type="text" ng-model="vm.ingredient">
+      <input type="text" ng-model="vm.ingredient" typeahead="ingredient as ingredient.searchValue for ingredient in vm.ingredientsData | filter:$viewValue | limitTo:10" typeahead-on-select="vm.onSelect($item, $model, $label)" class="form-control" placeholder="Ingredient to include, e.g. butter">
       <!-- <input type="text" ng-model="customSelected" placeholder="Custom template" typeahead="state as state.name for state in statesWithFlags | filter:{name:$viewValue}" typeahead-template-url="customTemplate.html" class="form-control"> -->
 
     </div>

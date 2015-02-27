@@ -80,23 +80,48 @@ module Api
 
     end
 
+    # Renders all ingredients from Postgres DB as JSON
+    # if the database was last updated over a week ago then it updates the DB by calling the yummly api
+    # !!! currently, it takes a good 30 seconds to fully update the DB
+    #     change this so that the update happens in a background task!
     def ingredients
 
-      # !!! Set up to store in postgres db and only update when data is a week or so old
+      ingredient = Ingredient.first
 
-      request = "#{API_URL}/metadata/ingredient"
-      options = {
-        query:
-        {
-          _app_id: ENV['yummly_app_id'],
-          _app_key: ENV['yummly_app_key']
+      # if data is over 1 week old (604800 seconds in week)
+      if ingredient == nil || ((Time.now.to_i - ingredient.updated_at.to_i) > 604800)
+
+        request = "#{API_URL}/metadata/ingredient"
+        options = {
+          query:
+          {
+            _app_id: ENV['yummly_app_id'],
+            _app_key: ENV['yummly_app_key']
+          }
         }
-      }
 
-      response = HTTParty.get(request, options)
+        # cut off the beginning and end because jsonp adds some stuff json doesn't understand
+        response = JSON.parse(HTTParty.get(request, options)[27..-3])
 
-      # cut off the beginning and end because jsonp adds some stuff json doesn't understand
-      render json: JSON.parse(response[27..-3])
+        # perform an "upsert" on each ingredient, i.e. update if it's there or create if not
+        # there is definitely a better way to write this but this should work for now
+        response.each do |ingredient|
+          i_in_db = Ingredient.find_by(searchValue: ingredient["searchValue"])
+          if i_in_db
+            i_in_db.update_attributes(searchValue: ingredient["searchValue"],
+                                      description: ingredient["description"],
+                                      term: ingredient["term"])
+          else
+            Ingredient.create(searchValue: ingredient["searchValue"],
+                              description: ingredient["description"],
+                              term: ingredient["term"]);
+          end
+        end
+
+      end
+
+      # render json of all ingredients in our DB, which should now be updated
+      render json: Ingredient.all.to_json(except: [:created_at, :updated_at])
 
     end
 

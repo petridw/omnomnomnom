@@ -51,6 +51,7 @@ module Api
           recipe['isLoading'] = false
           recipe['expandedInfo'] = nil
           recipe['ingredientPercentage'] = 0;
+          recipe['totalTimeInSeconds'] = recipe['totalTimeInSeconds'].to_i if recipe['totalTimeInSeconds']
         end
 
       rescue Zlib::DataError => e

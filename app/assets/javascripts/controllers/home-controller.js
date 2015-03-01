@@ -22,7 +22,9 @@ function HomeController($http, RecipeList, Recipe, IngredientMetadata, Ingredien
   vm.recipes            = [];                 // holds list of returned recipes from api call
   vm.ingredientList = new IngredientList(""); // holds list of included ingredients
   vm.order              = "ingredientPercentage";
-  vm.reverse            = "true";
+  vm.reverse            = true;
+  vm.limit              = 20;
+  vm.includeIngredient  = "";
 
   // State control:
   vm.hoveredIngredient  = -1;     // stores state of which ingredient is being hovered, if any
@@ -76,6 +78,8 @@ function HomeController($http, RecipeList, Recipe, IngredientMetadata, Ingredien
   // Once the home state loads up the search will take place, and the keywords / ingredients
   // will be in the URL! This makes search results bookmarkable.
   vm.search = function() {
+    // if there is text in the ingredient input and it's a real word then add the ingredient
+    // before searching
     $state.go('home', {keywords: vm.keywords, ingredients: vm.ingredientList.to_param()});
   };
 
@@ -111,8 +115,8 @@ function HomeController($http, RecipeList, Recipe, IngredientMetadata, Ingredien
   // If the ingredient isn't in the ingredient list already then it gets added and
   // then a new search is kicked off.
   vm.addIngredient = function() {
-    if ((vm.ingredient !== "") && (!vm.ingredientList.hasExactIngredient(vm.ingredient))) {
-      vm.ingredientList.addIngredient(vm.ingredient);
+    if ((vm.includeIngredient !== "") && (!vm.ingredientList.hasExactIngredient(vm.includeIngredient))) {
+      vm.ingredientList.addIngredient(vm.includeIngredient);
       RecipeList.addIngredient();
       vm.search();
     }
@@ -128,28 +132,76 @@ function HomeController($http, RecipeList, Recipe, IngredientMetadata, Ingredien
   // callback for selecting a field from the typeahead dropdown
   // !!! figure out a way to do this without the callback?
   vm.onSelect = function ($item, $model, $label) {
-    vm.ingredient = $item.searchValue;
+    vm.includeIngredient = $item.searchValue;
   };
 
   // given an array of ingredients, calculate the percentage of them that our ingredients list contains
   updateIngredientPercentage = function() {
     console.log("in ingredientPercentage");
 
-    for (var i = 0; i < vm.recipes.length; i++) {
+    try {
+      for (var i = 0; i < vm.recipes.length; i++) {
 
-      var matches = 0;
+        var matches = 0;
 
-      for (var ii = 0; ii < vm.recipes[i].ingredients.length; ii++) {
-        if (vm.ingredientList.hasIngredientMatch(vm.recipes[i].ingredients[ii])) {
-          matches ++;
+        for (var ii = 0; ii < vm.recipes[i].ingredients.length; ii++) {
+          if (vm.ingredientList.hasIngredientMatch(vm.recipes[i].ingredients[ii])) {
+            matches ++;
+          }
         }
-      }
 
-      vm.recipes[i].ingredientPercentage = Math.round((matches / vm.recipes[i].ingredients.length)*100);
-      // vm.recipes[i].ingredientPercentage = matches;
+        vm.recipes[i].ingredientPercentage = Math.round((matches / vm.recipes[i].ingredients.length)*100);
+        // vm.recipes[i].ingredientPercentage = matches;
+      }
+    } catch(err) {
+      console.log(err);
     }
 
   };
+
+  vm.loadMoreResults = function() {
+    if (vm.limit < 500) {
+      vm.limit += 20;
+    }
+  };
+
+
+  // return true if every single one of our ingredients is represented in this recipe
+  // and false otherwise
+  vm.matchIngredients = function() {
+    return function(recipe) {
+
+      var ingCheck = false;
+ 
+      for (var i = 0; i < vm.ingredientList.ingredients.length; i++) {
+        myIngWords = vm.ingredientList.ingredients[i].split(" ");
+        ingCheck = false;
+        for (var ii = 0; ii < myIngWords.length; ii++) {
+          myWord = myIngWords[ii].toLowerCase();
+
+          for (var j = 0; j < recipe.ingredients.length; j++) {
+            recIngredient = recipe.ingredients[j].toLowerCase();
+
+            if (recIngredient.search(myWord) !== -1) {
+              ingCheck = true;
+            }
+          }
+        }
+        if (!ingCheck) {
+          // An included ingredient wasn't found in so filter this recipe out
+          return false;
+        }
+      }
+      // All included ingredients were found so don't filter this recipe
+      return true;
+    };
+
+  };
+
+
+
+
+
 
 
 }

@@ -3,8 +3,7 @@ angular
   .factory('RecipeList', [
     "$http",
     "$q",
-    "IngredientList",
-    function($http, $q, IngredientList) {
+    function($http, $q) {
 
       // interface
       var service = {

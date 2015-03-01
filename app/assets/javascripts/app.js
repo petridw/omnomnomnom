@@ -1,5 +1,5 @@
 angular
-  .module('goodbelly', ['ngResource', 'ui.router', 'templates', 'ui.bootstrap'])
+  .module('goodbelly', ['ngResource', 'ui.router', 'templates', 'ui.bootstrap', 'infinite-scroll', 'autofocus'])
 
   .config([
     '$stateProvider',

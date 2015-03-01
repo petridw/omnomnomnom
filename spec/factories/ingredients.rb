@@ -1,8 +1,8 @@
 FactoryGirl.define do
   factory :ingredient do
-    searchValue "MyString"
-    description "MyString"
-    term "MyString"
+    searchValue "fried egg"
+    description "fried egg"
+    term "fried egg"
   end
 
 end

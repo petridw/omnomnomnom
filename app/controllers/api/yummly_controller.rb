@@ -77,21 +77,27 @@ module Api
         }
       }
 
-      response = HTTParty.get(request, options)
+      if params[:id] == "test"
+        request = "https://gist.githubusercontent.com/petridw/83d57266173193b0c1d0/raw/e2564cb499219091cc70c990ceb1ea4221a6c645/gistfile1.json"
+        response = JSON.parse(HTTParty.get(request))
+      else
+        response = HTTParty.get(request, options)
+      end
+      
       render json: response.to_json
 
     end
 
     # Renders all ingredients from Postgres DB as JSON
-    # if the database was last updated over a week ago then it updates the DB by calling the yummly api
+    # if the database was last updated over two weeks ago then it updates the DB by calling the yummly api
     # !!! currently, it takes a good 30 seconds to fully update the DB
     #     change this so that the update happens in a background task!
     def ingredients
 
       ingredient = Ingredient.first
 
-      # if data is over 1 week old (604800 seconds in week)
-      if ingredient == nil || ((Time.now.to_i - ingredient.updated_at.to_i) > 604800)
+      # if data is over 2 weeks old (604800 seconds in week)
+      if ingredient == nil || ((Time.now.to_i - ingredient.updated_at.to_i) > 1209600)
 
         request = "#{API_URL}/metadata/ingredient"
         options = {

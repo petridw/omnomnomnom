@@ -2,7 +2,7 @@ angular
   .module('goodbelly')
   .controller('HomeController', [
     '$http',
-    'RecipesList',
+    'RecipeList',
     'Recipe',
     'IngredientMetadata',
     'IngredientList',
@@ -12,7 +12,7 @@ angular
   ]);
 
 
-function HomeController($http, RecipesList, Recipe, IngredientMetadata, IngredientList, $state, $stateParams) {
+function HomeController($http, RecipeList, Recipe, IngredientMetadata, IngredientList, $state, $stateParams) {
 
   var vm = this;
 
@@ -54,23 +54,27 @@ function HomeController($http, RecipesList, Recipe, IngredientMetadata, Ingredie
 
     // get the list of recipes for the provided keyword / ingredients
     // - RecipesList constructor accepts a string for keywords and an array for ingredients
-    new RecipesList(vm.keywords, vm.ingredientList.ingredients)
-      .success(function(data, status, headers, config) {
-        vm.loading = false;       // successful result so turn off loading spinner
-        vm.recipes = data;        // set recipe list
-        vm.searchResults = true;  // show search result section
-      })
-      .error(function(data, status, headers, config) {
-        vm.loading = false;       // turn off loading spinner
-        console.log("Error loading recipe list. ", data);
-      });
+    RecipeList.getRecipes(vm.keywords, vm.ingredientList.ingredients)
+      .then(
+        function(data) {
+          vm.loading = false;       // successful result so turn off loading spinner
+          vm.recipes = data;        // set recipe list
+          vm.searchResults = true;  // show search result section
+        },
+        function(data) {
+          vm.loading = false;       // turn off loading spinner
+          console.log("Error loading recipe list. ", data);
+        }
+      );
   }
 
   // Function gets called when the "search" button is pressed.
   // It simply goes to the 'home' state with the current keywords and ingredients as params.
   // Once the home state loads up the search will take place, and the keywords / ingredients
   // will be in the URL! This makes search results bookmarkable.
-  vm.search = function() { $state.go('home', {keywords: vm.keywords, ingredients: vm.ingredientList.to_param()}); };
+  vm.search = function() {
+    $state.go('home', {keywords: vm.keywords, ingredients: vm.ingredientList.to_param()});
+  };
 
 
   // Function gets called when a recipe is clicked.
@@ -104,6 +108,7 @@ function HomeController($http, RecipesList, Recipe, IngredientMetadata, Ingredie
   vm.addIngredient = function() {
     if ((vm.ingredient !== "") && (!vm.ingredientList.hasExactIngredient(vm.ingredient))) {
       vm.ingredientList.addIngredient(vm.ingredient);
+      RecipeList.addIngredient();
       vm.search();
     }
   };
@@ -111,6 +116,7 @@ function HomeController($http, RecipesList, Recipe, IngredientMetadata, Ingredie
   // Simply removes ingredient and initiates a new search
   vm.removeIngredient = function(ingredient) {
     vm.ingredientList.removeIngredient(ingredient);
+    RecipeList.removeIngredient();
     vm.search();
   };
 
@@ -118,6 +124,10 @@ function HomeController($http, RecipesList, Recipe, IngredientMetadata, Ingredie
   // !!! figure out a way to do this without the callback?
   vm.onSelect = function ($item, $model, $label) {
     vm.ingredient = $item.searchValue;
+  };
+
+  vm.ingredientPercentage = function() {
+    
   };
 
 

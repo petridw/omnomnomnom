@@ -1,4 +1,10 @@
 
+<select ng-model="order" name="Order by">
+  <option value="recipeName">recipeName</option>
+  <option value="rating">rating</option>
+</select>
+Reverse order:<input type="checkbox" ng-model="reverse">
+
 <!-- -------------------- Search Form -------------------- -->
 <section class="row">
   <form>
@@ -57,7 +63,7 @@
 <section ng-if="vm.searchResults" class="row text-center">
 
   <!-- selected-card class can override all normal card styles bc of specificity of the css selector -->
-  <div  ng-repeat="(key, recipe) in vm.recipes" 
+  <div  ng-repeat="(key, recipe) in vm.recipes | orderBy:order:reverse | limitTo:20" 
         ng-class="{true: 'selected-card col-lg-6 col-md-8 col-sm-12', false: 'col-lg-3 col-md-4 col-sm-6'}[recipe.isSelected]">
     <div class="card" ng-click="vm.clickRecipe(key)">
 
@@ -83,9 +89,7 @@
             <p>
               <span ng-class="{'have-ingredient': vm.ingredientList.hasIngredientMatch(ingredient)}" 
                     ng-repeat="ingredient in recipe.ingredients">
-                {{ingredient}}
-                <!-- Place unstyled commas in between ingredients, unless last ingredient -->
-                <span class="list-comma">{{$last ? '' : ', '}}</span>
+                {{ingredient}}<span class="list-comma">{{$last ? '' : ', '}}</span>
               </span>
             </p>
           </div>

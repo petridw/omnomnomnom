@@ -21,6 +21,8 @@ function HomeController($http, RecipeList, Recipe, IngredientMetadata, Ingredien
   vm.ingredientsData    = [];                 // holds ingredient metadata from yummly
   vm.recipes            = [];                 // holds list of returned recipes from api call
   vm.ingredientList = new IngredientList(""); // holds list of included ingredients
+  vm.order              = "ingredientPercentage";
+  vm.reverse            = "true";
 
   // State control:
   vm.hoveredIngredient  = -1;     // stores state of which ingredient is being hovered, if any
@@ -57,9 +59,10 @@ function HomeController($http, RecipeList, Recipe, IngredientMetadata, Ingredien
     RecipeList.getRecipes(vm.keywords, vm.ingredientList.ingredients)
       .then(
         function(data) {
-          vm.loading = false;       // successful result so turn off loading spinner
-          vm.recipes = data;        // set recipe list
-          vm.searchResults = true;  // show search result section
+          vm.loading = false;           // successful result so turn off loading spinner
+          vm.recipes = data;            // set recipe list
+          updateIngredientPercentage(); // update ingredient percentage for all recipes
+          vm.searchResults = true;      // show search result section
         },
         function(data) {
           vm.loading = false;       // turn off loading spinner
@@ -80,21 +83,23 @@ function HomeController($http, RecipeList, Recipe, IngredientMetadata, Ingredien
   // Function gets called when a recipe is clicked.
   // If the recipe is now selected then it retrieves the expanded recipe data unless
   // it's already been retrieved.
-  vm.clickRecipe = function(key) {    
-    vm.recipes[key].isSelected = !vm.recipes[key].isSelected;
+  vm.clickRecipe = function(recipe) {
 
-    if ((vm.recipes[key].isSelected) && (vm.recipes[key].expandedInfo === null)) {
+    recipe.isSelected = !recipe.isSelected;
+    console.log("recipe selected status: " + recipe.isSelected);
+
+    if ((recipe.isSelected) && (recipe.expandedInfo === null)) {
 
       // Turn on this recipe's loading spinner
-      vm.recipes[key].isLoading = true;
+      recipe.isLoading = true;
     
-      new Recipe(vm.recipes[key].id)
+      new Recipe(recipe.id)
         .success(function(data, status, headers, config) {
-          vm.recipes[key].isLoading = false;    // turn off loading spinner
-          vm.recipes[key].expandedInfo = data;  // give recipe its expanded data
+          recipe.isLoading = false;    // turn off loading spinner
+          recipe.expandedInfo = data;  // give recipe its expanded data
         })
         .error(function(data, status, headers, config) {
-          vm.recipes[key].isLoading = false;    // turn off loading spinner
+          recipe.isLoading = false;    // turn off loading spinner
           console.log("Error retrieving recipe data for " + vm.recipes[key] + ".", data);
         });
 
@@ -126,8 +131,24 @@ function HomeController($http, RecipeList, Recipe, IngredientMetadata, Ingredien
     vm.ingredient = $item.searchValue;
   };
 
-  vm.ingredientPercentage = function() {
-    
+  // given an array of ingredients, calculate the percentage of them that our ingredients list contains
+  updateIngredientPercentage = function() {
+    console.log("in ingredientPercentage");
+
+    for (var i = 0; i < vm.recipes.length; i++) {
+
+      var matches = 0;
+
+      for (var ii = 0; ii < vm.recipes[i].ingredients.length; ii++) {
+        if (vm.ingredientList.hasIngredientMatch(vm.recipes[i].ingredients[ii])) {
+          matches ++;
+        }
+      }
+
+      vm.recipes[i].ingredientPercentage = Math.round((matches / vm.recipes[i].ingredients.length)*100);
+      // vm.recipes[i].ingredientPercentage = matches;
+    }
+
   };
 
 

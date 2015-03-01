@@ -3,7 +3,8 @@ angular
   .factory('RecipeList', [
     "$http",
     "$q",
-    function($http, $q) {
+    "IngredientList",
+    function($http, $q, IngredientList) {
 
       // interface
       var service = {
@@ -40,7 +41,7 @@ angular
         var updateRecipes = false;
 
         if  ( (service.keywords !== keywords) || 
-              (service.addedIngredient && (service.recipes.length >= 500)) || 
+              (service.addedIngredient && (service.recipes.length >= 250)) || 
               (service.removedIngredient) 
             ) {
           updateRecipes = true;
@@ -89,10 +90,6 @@ angular
       function removeIngredient() {
         service.removedIngredient = true;
       }
-
-
-
-
 
 
       

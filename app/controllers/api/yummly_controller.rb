@@ -2,8 +2,8 @@ module Api
   class YummlyController < ApplicationController
 
     API_URL = "http://api.yummly.com/v1/api"
-    MAX_RESULT = 500
-    LIMIT_TO = 500
+    MAX_RESULT = 250
+    LIMIT_TO = 250
 
     def recipes
 
@@ -50,6 +50,7 @@ module Api
           recipe['isSelected'] = false
           recipe['isLoading'] = false
           recipe['expandedInfo'] = nil
+          recipe['ingredientPercentage'] = 0;
         end
 
       rescue Zlib::DataError => e

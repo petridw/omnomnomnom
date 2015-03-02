@@ -64,7 +64,7 @@ angular
               //check each word in ingredient
               ourWords = this.ingredients[ii].split(" ");
               for (var j = 0; j < ourWords.length; j ++) {
-                if (ingredientWords[i] === ourWords[j]) {
+                if (ingredientWords[i].toLowerCase() === ourWords[j].toLowerCase()) {
                   return true;
                 }
               }

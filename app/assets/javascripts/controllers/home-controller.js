@@ -132,9 +132,9 @@ function HomeController($http, RecipeList, Recipe, IngredientMetadata, Ingredien
     vm.includeIngredient = $item.searchValue;
   };
 
+  // !!! this should be somewhere else, not in controller
   // given an array of ingredients, calculate the percentage of them that our ingredients list contains
   updateIngredientPercentage = function() {
-    console.log("in ingredientPercentage");
 
     try {
       for (var i = 0; i < vm.recipes.length; i++) {
@@ -147,8 +147,8 @@ function HomeController($http, RecipeList, Recipe, IngredientMetadata, Ingredien
           }
         }
 
+        vm.recipes[i].ingredientMatches = matches;
         vm.recipes[i].ingredientPercentage = Math.round((matches / vm.recipes[i].ingredients.length)*100);
-        // vm.recipes[i].ingredientPercentage = matches;
       }
     } catch(err) {
       console.log(err);
@@ -174,14 +174,21 @@ function HomeController($http, RecipeList, Recipe, IngredientMetadata, Ingredien
         myIngWords = vm.ingredientList.ingredients[i].split(" ");
         ingCheck = false;
         for (var ii = 0; ii < myIngWords.length; ii++) {
-          myWord = myIngWords[ii].toLowerCase();
+          myWord = myIngWords[ii];
 
           for (var j = 0; j < recipe.ingredients.length; j++) {
             recIngredient = recipe.ingredients[j].toLowerCase();
+            recIngWords = recipe.ingredients[j].split(" ");
 
-            if (recIngredient.search(myWord) !== -1) {
-              ingCheck = true;
+            for (var jj = 0; jj < recIngWords.length; jj++) {
+              if (myWord.toLowerCase() === recIngWords[jj].toLowerCase()) {
+                ingCheck = true;
+              }
             }
+
+            // if (recIngredient.search(myWord) !== -1) {
+            //   ingCheck = true;
+            // }
           }
         }
         if (!ingCheck) {

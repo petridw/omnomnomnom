@@ -134,7 +134,7 @@
             </span>
           </div>
           <div class="card-ing-percentage">
-            Ingredients: {{recipe.ingredientPercentage}}%
+            Ingredients: {{recipe.ingredientPercentage}}% ({{recipe.ingredientMatches}} / {{recipe.ingredients.length}})
           </div>
           <div class="card-time">
             <span ng-if="recipe.totalTimeInSeconds">Time: {{recipe.totalTimeInSeconds | secondsToString}}</span>

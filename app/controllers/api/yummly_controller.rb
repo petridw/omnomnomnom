@@ -51,8 +51,9 @@ module Api
           recipe['isSelected'] = false
           recipe['isLoading'] = false
           recipe['expandedInfo'] = nil
+          recipe['ingredientMatches'] = 0;
           recipe['ingredientPercentage'] = 0;
-          recipe['totalTimeInSeconds'] = recipe['totalTimeInSeconds'].to_i if recipe['totalTimeInSeconds']
+          # recipe['totalTimeInSeconds'] = recipe['totalTimeInSeconds'].to_i if recipe['totalTimeInSeconds']
 
           # Set image url if there isn't one
           if recipe['imageUrlsBySize'] == nil

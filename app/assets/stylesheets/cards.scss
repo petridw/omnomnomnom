@@ -38,7 +38,8 @@
   
     .card-image {
 
-      margin: $base-spacing;
+      // margin: $base-spacing;
+      margin: 1em;
 
       img {
         border-radius: $base-border-radius;
@@ -98,10 +99,11 @@
 
     .card-header {
 
+      height: 100px;
       text-align: left;
 
       .card-header-text {
-        margin-left: 300px;
+        margin-left: 350px;
         padding: 20px 15px;
         text-align: center;
 
@@ -109,7 +111,7 @@
         font-weight: bold;
 
         p {
-          padding-top: 1em;
+          // padding-top: 1em;
           font-weight: 500;
           font-size: 0.9em;
         }
@@ -117,7 +119,24 @@
 
       img {
         float: left;
-        max-width: 300px;
+        max-width: 349px;
+      }
+    }
+
+    .card-info {
+      height: 100%;
+      text-align: left;
+      margin-left: 350px;
+      height: 250px;
+      border-top: $card-border;
+      overflow: auto;
+
+      ul {
+        list-style-type: none;
+        padding-left: 15px;
+        i {
+          padding-right: 2px;
+        }
       }
     }
   }

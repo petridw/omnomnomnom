@@ -39,41 +39,35 @@ module Api
         }
       }
 
-      begin
 
-        if keywords == "test"
-          # for testing the api without actually calling yummly
-          request = "https://gist.githubusercontent.com/petridw/6b660cc8df76778feac6/raw/9633cf8ba7db96bed56e0072932326e3cd0328fd/yummly_example"
-          response = JSON.parse(HTTParty.get(request))
-        else
-          response = HTTParty.get(request, options)
-        end
-
-        recipes = response['matches']
-        recipes.sort! { |a,b| b['rating'] <=> a['rating'] }
-
-        # set up a few extra key/value pairs which will be used by angular
-        recipes = recipes.take(LIMIT_TO)
-        recipes.each do |recipe|
-          recipe['isSelected'] = false
-          recipe['isLoading'] = false
-          recipe['expandedInfo'] = nil
-          recipe['ingredientMatches'] = 0;
-          recipe['ingredientPercentage'] = 0;
-          recipe['totalIngredients'] = recipe['ingredients'].length
-          # recipe['totalTimeInSeconds'] = recipe['totalTimeInSeconds'].to_i if recipe['totalTimeInSeconds']
-
-          # Set image url if there isn't one
-          if recipe['imageUrlsBySize'] == nil
-            recipe['imageUrlsBySize'] = {'90': ALT_IMG_URL}
-          end
-        end
-
-      rescue Zlib::DataError => e
-        recipes = e.inspect
-      rescue Exception => e
-        recipes = "Error: #{e}"
+      if keywords == "test"
+        # for testing the api without actually calling yummly
+        request = "https://gist.githubusercontent.com/petridw/6b660cc8df76778feac6/raw/9633cf8ba7db96bed56e0072932326e3cd0328fd/yummly_example"
+        response = JSON.parse(HTTParty.get(request))
+      else
+        response = HTTParty.get(request, options)
       end
+
+      recipes = response['matches']
+      recipes.sort! { |a,b| b['rating'] <=> a['rating'] }
+
+      # set up a few extra key/value pairs which will be used by angular
+      recipes = recipes.take(LIMIT_TO)
+      recipes.each do |recipe|
+        recipe['isSelected'] = false
+        recipe['isLoading'] = false
+        recipe['expandedInfo'] = nil
+        recipe['ingredientMatches'] = 0;
+        recipe['ingredientPercentage'] = 0;
+        recipe['totalIngredients'] = recipe['ingredients'].length
+        # recipe['totalTimeInSeconds'] = recipe['totalTimeInSeconds'].to_i if recipe['totalTimeInSeconds']
+
+        # Set image url if there isn't one
+        if recipe['imageUrlsBySize'] == nil
+          recipe['imageUrlsBySize'] = {'90': ALT_IMG_URL}
+        end
+      end
+
 
       render json: recipes.to_json
 

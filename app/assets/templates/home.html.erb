@@ -138,7 +138,9 @@
             Ingredients: {{recipe.ingredientPercentage}}% ({{recipe.ingredientMatches}} / {{recipe.totalIngredients}})
           </div>
           <div class="card-time">
-            <span ng-if="recipe.totalTimeInSeconds">Time: {{recipe.totalTimeInSeconds | secondsToString}}</span>
+            <span ng-if="recipe.totalTimeInSeconds">
+              <i class="fa fa-clock-o"></i> {{recipe.totalTimeInSeconds | secondsToString}}
+            </span>
           </div>
           <div class="card-ingredients">
             <p>
@@ -167,13 +169,26 @@
             <img ng-src="{{ recipe.expandedInfo.images[0]['imageUrlsBySize']['360'] }}" alt="{{recipe.recipeName}} large image">
             <div class="card-header-text">
               <h4>{{recipe.recipeName}}</h4>
-              <a  ng-click="$event.stopPropagation();" ng-href="{{ recipe.expandedInfo.source.sourceRecipeUrl }}">
-                <p>View recipe steps at {{recipe.sourceDisplayName}}</p>
+              <a ng-click="$event.stopPropagation();" ng-href="{{ recipe.expandedInfo.source.sourceRecipeUrl }}">
+                <p>View full recipe steps at {{recipe.sourceDisplayName}}</p>
               </a>
             </div>
           </div>
 
           <div class="card-info">
+
+            <div class="card-ingredients">
+              <ul>
+                <li ng-repeat="ingredient in recipe.expandedInfo.ingredientLines track by $index">
+                  <i class="fa fa-cutlery"></i> {{ingredient}}
+                  <!-- <i class="icon icon-pot"></i> {{ingredient}} -->
+                </li>
+              </ul>
+              <p ng-if="recipe.expandedInfo.ingredientLines.length < 1">
+                We were unable to obtain the full ingredient list for this recipe, so you'll have to check it out at 
+                <a ng-click="$event.stopPropagation();" ng-href="{{ recipe.expandedInfo.source.sourceRecipeUrl }}">{{recipe.sourceDisplayName}}</a>
+              </p>
+            </div>
             
           </div>
 

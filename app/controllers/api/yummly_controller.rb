@@ -53,6 +53,7 @@ module Api
           recipe['expandedInfo'] = nil
           recipe['ingredientMatches'] = 0;
           recipe['ingredientPercentage'] = 0;
+          recipe['totalIngredients'] = recipe['ingredients'].length
           # recipe['totalTimeInSeconds'] = recipe['totalTimeInSeconds'].to_i if recipe['totalTimeInSeconds']
 
           # Set image url if there isn't one

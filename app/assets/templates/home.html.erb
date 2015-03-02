@@ -92,6 +92,7 @@
     <select name="order-by" class="form-control" ng-model="vm.order" name="Order by">
       <option value="recipeName">Recipe Name</option>
       <option value="rating">Rating</option>
+      <option value="totalIngredients">Ingredients</option>
       <option value="ingredientPercentage">Ingredient Percentage</option>
       <option value="totalTimeInSeconds">Time</option>
     </select>
@@ -134,7 +135,7 @@
             </span>
           </div>
           <div class="card-ing-percentage">
-            Ingredients: {{recipe.ingredientPercentage}}% ({{recipe.ingredientMatches}} / {{recipe.ingredients.length}})
+            Ingredients: {{recipe.ingredientPercentage}}% ({{recipe.ingredientMatches}} / {{recipe.totalIngredients}})
           </div>
           <div class="card-time">
             <span ng-if="recipe.totalTimeInSeconds">Time: {{recipe.totalTimeInSeconds | secondsToString}}</span>

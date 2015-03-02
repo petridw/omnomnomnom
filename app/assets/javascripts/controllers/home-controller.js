@@ -17,17 +17,21 @@ function HomeController($http, RecipeList, Recipe, IngredientMetadata, Ingredien
   var vm = this;
 
   // Data store:
-  vm.keywords           = "";                 // holds keywords that were searched for
-  vm.ingredientsData    = [];                 // holds ingredient metadata from yummly
-  vm.recipes            = [];                 // holds list of returned recipes from api call
-  vm.ingredientList = new IngredientList(""); // holds list of included ingredients
-  vm.order              = "ingredientPercentage";
-  vm.reverse            = true;
-  vm.limit              = 20;
+  vm.keywords           = "";                     // holds keywords that were searched for
+  vm.ingredientsData    = [];                     // holds ingredient metadata from yummly
+  vm.recipes            = [];                     // holds list of returned recipes from api call
+  vm.order              = "ingredientPercentage"; // default order for recipe list
+  vm.reverse            = true;                   // default direction to order recipe list
+  vm.limit              = 20;                     // default limit for num recipes to show
   vm.includeIngredient  = "";
+  vm.excludeIngredient  = "";
+
+  vm.ingredientList = new IngredientList("", ""); // holds list of included/excluded ingredients
+
 
   // State control:
   vm.hoveredIngredient  = -1;     // stores state of which ingredient is being hovered, if any
+  vm.hoveredExcludedIngredient = -1;
   vm.searchResults      = false;  // controls whether results area shows
   vm.loading            = false;  // controls whether loading spinner shows
 
@@ -36,12 +40,21 @@ function HomeController($http, RecipeList, Recipe, IngredientMetadata, Ingredien
     .success(function(data) { vm.ingredientsData = data; })
     .error(function(data) { console.log("Error loading ingredients data"); });
 
-  // Set vm.ingredients and vm.keywords if they exist in params
-  if ($stateParams.ingredients) { vm.ingredientList = new IngredientList($stateParams.ingredients); }
-  if ($stateParams.keywords) { vm.keywords = $stateParams.keywords; }
+  // Set vm.ingredients if they exist in params
+  if ($stateParams.ingredients || $stateParams.excludedIngredients) {
+    console.log("Setting up ingredients");
+    var ingredients = $stateParams.ingredients || "";
+    var excludedIngredients = $stateParams.excludedIngredients || "";
+
+    vm.ingredientList = new IngredientList(ingredients, excludedIngredients); 
+  }
+  // Set vm.keywords if they exist in params
+  if ($stateParams.keywords) {
+    vm.keywords = $stateParams.keywords;
+  }
 
   // If there are are keywords or ingredients in the params, then do a recipe search
-  if ($stateParams.keywords || $stateParams.ingredients) {
+  if ($stateParams.keywords || $stateParams.ingredients || $stateParams.excludedIngredients) {
 
     // turn on loading spinner
     vm.loading = true;
@@ -54,8 +67,7 @@ function HomeController($http, RecipeList, Recipe, IngredientMetadata, Ingredien
     // a new search must be run.
 
     // get the list of recipes for the provided keyword / ingredients
-    // - RecipesList constructor accepts a string for keywords and an array for ingredients
-    RecipeList.getRecipes(vm.keywords, vm.ingredientList.ingredients)
+    RecipeList.getRecipes(vm.keywords, vm.ingredientList.ingredients, vm.ingredientList.excludedIngredients)
       .then(
         function(data) {
           vm.loading = false;           // successful result so turn off loading spinner
@@ -77,7 +89,7 @@ function HomeController($http, RecipeList, Recipe, IngredientMetadata, Ingredien
   vm.search = function() {
     // if there is text in the ingredient input and it's a real word then add the ingredient
     // before searching
-    $state.go('home', {keywords: vm.keywords, ingredients: vm.ingredientList.to_param()});
+    $state.go('home', {keywords: vm.keywords, ingredients: vm.ingredientList.to_param(false), excludedIngredients: vm.ingredientList.to_param(true)});
   };
 
 
@@ -111,25 +123,39 @@ function HomeController($http, RecipeList, Recipe, IngredientMetadata, Ingredien
   // Function gets called when the "add ingredient" button is pressed.
   // If the ingredient isn't in the ingredient list already then it gets added and
   // then a new search is kicked off.
-  vm.addIngredient = function() {
-    if ((vm.includeIngredient !== "") && (!vm.ingredientList.hasExactIngredient(vm.includeIngredient))) {
-      vm.ingredientList.addIngredient(vm.includeIngredient);
-      RecipeList.addIngredient();
-      vm.search();
+  // if exclude is true then add ingredient to excluded list instead
+  vm.addIngredient = function(exclude) {
+    if (exclude) {
+      if ((vm.excludeIngredient !== "") && (!vm.ingredientList.hasExactIngredient(vm.excludeIngredient, true))) {
+        vm.ingredientList.addIngredient(vm.excludeIngredient, true);
+        RecipeList.addIngredient();
+        vm.search();
+      }
+    } else {
+      if ((vm.includeIngredient !== "") && (!vm.ingredientList.hasExactIngredient(vm.includeIngredient, false))) {
+        vm.ingredientList.addIngredient(vm.includeIngredient, false);
+        RecipeList.addIngredient();
+        vm.search();
+      }
     }
   };
 
   // Simply removes ingredient and initiates a new search
-  vm.removeIngredient = function(ingredient) {
-    vm.ingredientList.removeIngredient(ingredient);
+  // if exclude is true then remove from the excluded list instead
+  vm.removeIngredient = function(ingredient, exclude) {
+    vm.ingredientList.removeIngredient(ingredient, exclude);
     RecipeList.removeIngredient();
     vm.search();
   };
 
   // callback for selecting a field from the typeahead dropdown
-  // !!! figure out a way to do this without the callback?
-  vm.onSelect = function ($item, $model, $label) {
+  vm.onSelectInclude = function ($item, $model, $label) {
     vm.includeIngredient = $item.searchValue;
+  };
+
+  // callback for selecting a field from the typeahead dropdown
+  vm.onSelectExclude = function ($item, $model, $label) {
+    vm.excludeIngredient = $item.searchValue;
   };
 
   // !!! this should be somewhere else, not in controller

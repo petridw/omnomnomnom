@@ -20,6 +20,12 @@ module Api
         ingredients = []
       end
 
+      if params[:excludedIngredients]
+        excludedIngredients = params[:excludedIngredients]
+      else
+        excludedIngredients = []
+      end
+
       request = "#{API_URL}/recipes"
       options = { 
         query: 
@@ -28,6 +34,7 @@ module Api
           _app_key: ENV['yummly_app_key'],
           q: keywords,
           allowedIngredient: ingredients,
+          excludedIngredient: excludedIngredients,
           maxResult: MAX_RESULT
         }
       }

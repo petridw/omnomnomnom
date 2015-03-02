@@ -22,7 +22,7 @@ angular
 
 
       // implementation
-      function getRecipes(keywords, ingredients) {
+      function getRecipes(keywords, ingredients, excludedIngredients) {
 
         // New recipes should be looked up in the following cases:
         //    - 'keywords' has changed
@@ -59,13 +59,12 @@ angular
         service.addedIngredient = false;
         service.removedIngredient = false;
 
-
         if (updateRecipes) {
 
           $http({
             url: '/api/recipes',
             method: 'GET',
-            params: { keywords: keywords, 'ingredients[]': ingredients }
+            params: { keywords: keywords, 'ingredients[]': ingredients, 'excludedIngredients[]': excludedIngredients }
             })
             .success(function(data) {
               service.recipes = data;

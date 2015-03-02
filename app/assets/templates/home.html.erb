@@ -19,7 +19,7 @@
             ng-repeat="ingredient in vm.ingredientList.ingredients" 
             ng-mouseenter="vm.hoveredIngredient = $index" 
             ng-mouseleave="vm.hoveredIngredient = -1" 
-            ng-click="vm.removeIngredient(ingredient)">
+            ng-click="vm.removeIngredient(ingredient, false)">
         {{ingredient}}
         <i class="fa fa-minus-square ingredient-hover" ng-if="vm.hoveredIngredient === $index"></i>
         </span>
@@ -29,27 +29,27 @@
     <div class="form-group col-sm-5 col-sm-offset-3 text-center">
       <label for="ingredients" class="sr-only">Ingredients</label>
       <input  typeahead="ingredient as ingredient.searchValue for ingredient in vm.ingredientsData | filter:$viewValue | limitTo:10" 
-              typeahead-on-select="vm.onSelect($item, $model, $label)" 
+              typeahead-on-select="vm.onSelectInclude($item, $model, $label)" 
               class="form-control" type="text"
               placeholder="Ingredient to include, e.g. butter"
               ng-model="vm.includeIngredient"
               autofocus="{{vm.keywords.length>0}}">
     </div>
     <div class="form-group col-sm-1 text-right">
-      <button ng-click="!vm.includeIngredient || vm.addIngredient()" class="btn btn-default text-center">
+      <button ng-click="!vm.includeIngredient || vm.addIngredient(false)" class="btn btn-default text-center">
         <i class="fa fa-plus"></i>
       </button>
     </div>
 
     <!-- exclude ingredients list -->
-    <div class="have-ingredient-list form-group col-sm-6 col-sm-offset-3 text-center" ng-if="vm.ingredientList.ingredients.length > 0">
+    <div class="have-ingredient-list form-group col-sm-6 col-sm-offset-3 text-center" ng-if="vm.ingredientList.excludedIngredients.length > 0">
       <span class="have-ingredient"
-            ng-repeat="ingredient in vm.ingredientList.ingredients" 
-            ng-mouseenter="vm.hoveredIngredient = $index" 
-            ng-mouseleave="vm.hoveredIngredient = -1" 
-            ng-click="vm.removeIngredient(ingredient)">
+            ng-repeat="ingredient in vm.ingredientList.excludedIngredients" 
+            ng-mouseenter="vm.hoveredExcludedIngredient = $index" 
+            ng-mouseleave="vm.hoveredExcludedIngredient = -1" 
+            ng-click="vm.removeIngredient(ingredient, true)">
         {{ingredient}}
-        <i class="fa fa-minus-square ingredient-hover" ng-if="vm.hoveredIngredient === $index"></i>
+        <i class="fa fa-minus-square ingredient-hover" ng-if="vm.hoveredExcludedIngredient === $index"></i>
         </span>
     </div>
 
@@ -57,13 +57,13 @@
     <div class="form-group col-sm-5 col-sm-offset-3 text-center">
       <label for="ingredients" class="sr-only">Ingredients</label>
       <input  typeahead="ingredient as ingredient.searchValue for ingredient in vm.ingredientsData | filter:$viewValue | limitTo:10" 
-              typeahead-on-select="vm.onSelect($item, $model, $label)" 
+              typeahead-on-select="vm.onSelectExclude($item, $model, $label)" 
               class="form-control" type="text"
               placeholder="Ingredient to exclude, e.g. curry leaf"
               ng-model="vm.excludeIngredient">
     </div>
     <div class="form-group col-sm-1 text-right">
-      <button ng-click="!vm.excludeIngredient || vm.excludeIngredient()" class="btn btn-default text-center">
+      <button ng-click="!vm.excludeIngredient || vm.addIngredient(true)" class="btn btn-default text-center">
         <i class="fa fa-minus"></i>
       </button>
     </div>

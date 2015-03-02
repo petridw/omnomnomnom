@@ -12,7 +12,7 @@ angular
 
       $stateProvider
         .state('home', {
-          url: '/?keywords&ingredients',
+          url: '/?keywords&ingredients&excludedIngredients',
           params: {
             keywords: "",
             ingredients: ""

@@ -4,6 +4,7 @@ module Api
     API_URL = "http://api.yummly.com/v1/api"
     MAX_RESULT = 250
     LIMIT_TO = 250
+    ALT_IMG_URL = "http://upload.wikimedia.org/wikipedia/commons/thumb/a/ac/No_image_available.svg/300px-No_image_available.svg.png"
 
     def recipes
 
@@ -52,6 +53,11 @@ module Api
           recipe['expandedInfo'] = nil
           recipe['ingredientPercentage'] = 0;
           recipe['totalTimeInSeconds'] = recipe['totalTimeInSeconds'].to_i if recipe['totalTimeInSeconds']
+
+          # Set image url if there isn't one
+          if recipe['imageUrlsBySize'] == nil
+            recipe['imageUrlsBySize'] = {'90': ALT_IMG_URL}
+          end
         end
 
       rescue Zlib::DataError => e
@@ -83,7 +89,12 @@ module Api
       else
         response = HTTParty.get(request, options)
       end
-      
+
+      # Set image url if there isn't an image
+      if response['images'][0]['imageUrlsBySize']['360'] == "null=s360-c"
+        response['images'][0]['imageUrlsBySize']['360'] = ALT_IMG_URL
+      end
+
       render json: response.to_json
 
     end

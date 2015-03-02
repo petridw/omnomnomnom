@@ -60,8 +60,7 @@
               typeahead-on-select="vm.onSelect($item, $model, $label)" 
               class="form-control" type="text"
               placeholder="Ingredient to exclude, e.g. curry leaf"
-              ng-model="vm.excludeIngredient"
-              autofocus="{{vm.keywords.length>0}}">
+              ng-model="vm.excludeIngredient">
     </div>
     <div class="form-group col-sm-1 text-right">
       <button ng-click="!vm.excludeIngredient || vm.excludeIngredient()" class="btn btn-default text-center">
@@ -120,7 +119,7 @@
         <!-- !!! change header so that image and text are side by side taking up half the space in the card -->
         <div class="card-header">
           <div class="card-image">
-            <img class="" ng-src="{{ recipe['imageUrlsBySize']['90'] || vm.noImageUrl }}" alt="{{recipe.recipeName}} image" >
+            <img class="" ng-src="{{ recipe['imageUrlsBySize']['90'] }}" alt="{{recipe.recipeName}} image" >
           </div>
           <div class="card-title">
             {{recipe.recipeName}}
@@ -164,7 +163,7 @@
         <div ng-if="!recipe.isLoading">
 
           <div class="card-header">
-            <img ng-src="{{ recipe.expandedInfo.images[0].imageUrlsBySize['360'] || vm.noImageUrl }}" alt="{{recipe.recipeName}} large image">
+            <img ng-src="{{ recipe.expandedInfo.images[0]['imageUrlsBySize']['360'] }}" alt="{{recipe.recipeName}} large image">
             <div class="card-header-text">
               <h4>{{recipe.recipeName}}</h4>
               <a  ng-click="$event.stopPropagation();" ng-href="{{ recipe.expandedInfo.source.sourceRecipeUrl }}">

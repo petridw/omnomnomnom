@@ -31,9 +31,6 @@ function HomeController($http, RecipeList, Recipe, IngredientMetadata, Ingredien
   vm.searchResults      = false;  // controls whether results area shows
   vm.loading            = false;  // controls whether loading spinner shows
 
-  vm.noImageUrl = "http://upload.wikimedia.org/wikipedia/commons/thumb/a/ac/No_image_available.svg/300px-No_image_available.svg.png";
-
-
   // Get a list of searchable ingredients
   new IngredientMetadata()
     .success(function(data) { vm.ingredientsData = data; })

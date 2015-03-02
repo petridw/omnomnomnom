@@ -41,7 +41,8 @@ angular
 
         if  ( (service.keywords !== keywords) || 
               (service.addedIngredient && (service.recipes.length >= 250)) || 
-              (service.removedIngredient) 
+              (service.removedIngredient) ||
+              (service.recipes.length === 0)
             ) {
           updateRecipes = true;
         }

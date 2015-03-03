@@ -52,7 +52,6 @@ function HomeController($http, RecipeList, Recipe, IngredientMetadata, Ingredien
 
   // Set vm.ingredients if they exist in params
   if ($stateParams.ingredients || $stateParams.excludedIngredients) {
-    console.log("Setting up ingredients");
     var ingredients = $stateParams.ingredients || "";
     var excludedIngredients = $stateParams.excludedIngredients || "";
 
@@ -109,7 +108,7 @@ function HomeController($http, RecipeList, Recipe, IngredientMetadata, Ingredien
   vm.clickRecipe = function(recipe) {
 
     recipe.isSelected = !recipe.isSelected;
-    console.log("recipe selected status: " + recipe.isSelected);
+    console.log("what the eff is happening");
 
     if ((recipe.isSelected) && (recipe.expandedInfo === null)) {
 
@@ -118,9 +117,8 @@ function HomeController($http, RecipeList, Recipe, IngredientMetadata, Ingredien
     
       new Recipe(recipe.id)
         .success(function(data, status, headers, config) {
-          recipe.isLoading = false;    // turn off loading spinner
-          recipe.expandedInfo = data;  // give recipe its expanded data
-          resizeCardInfo(recipe.id);
+          recipe.isLoading = false;      // turn off loading spinner
+          recipe.expandedInfo = data;    // give recipe its expanded data
         })
         .error(function(data, status, headers, config) {
           recipe.isLoading = false;    // turn off loading spinner
@@ -128,8 +126,10 @@ function HomeController($http, RecipeList, Recipe, IngredientMetadata, Ingredien
         });
 
     } else {
-      resizeCardInfo(recipe.id);
+      // console.log("huh?");
+      // resizeCardInfo(recipe.id);
     }
+
   };
 
 

@@ -8,11 +8,6 @@ angular
         // ingredients param is a comma seperated list
         this.initialize = function(ingredient_string, excluded_ingredient_string) {
 
-          console.log("making a new ingredient list:");
-          console.log("included: ", ingredient_string);
-          console.log("excluded: ", excluded_ingredient_string);
-
-
           if (ingredient_string.length > 0) {
             this.ingredients = ingredient_string.split(",");
           } else {

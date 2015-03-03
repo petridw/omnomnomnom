@@ -1,5 +1,4 @@
 
-
 // Ingredient list animations
 // These potentially don't work because the state change messes them up (not sure though)
 .have-ingredient.ng-enter,
@@ -50,22 +49,21 @@
 }
 
 
+// Recipe card animations
+// .card-narrow.ng-enter, .card-narrow.ng-leave {
+//   -webkit-transition:all cubic-bezier(0.250, 0.460, 0.450, 0.940) 0.5s;
+//   transition:all cubic-bezier(0.250, 0.460, 0.450, 0.940) 0.5s;
+// }
 
+// .card-narrow.ng-enter,
+// .card-narrow.ng-leave.ng-leave-active {
+//   opacity:0;
+// }
 
-.card-narrow.ng-enter, .card-narrow.ng-leave {
-  -webkit-transition:all cubic-bezier(0.250, 0.460, 0.450, 0.940) 0.5s;
-  transition:all cubic-bezier(0.250, 0.460, 0.450, 0.940) 0.5s;
-}
-
-.card-narrow.ng-enter,
-.card-narrow.ng-leave.ng-leave-active {
-  opacity:0;
-}
-
-.card-narrow.ng-leave,
-.card-narrow.ng-enter.ng-enter-active {
-  opacity:1;
-}
+// .card-narrow.ng-leave,
+// .card-narrow.ng-enter.ng-enter-active {
+//   opacity:1;
+// }
 .card-wide.ng-enter, .card-wide.ng-leave {
   -webkit-transition:all cubic-bezier(0.250, 0.460, 0.450, 0.940) 0.5s;
   transition:all cubic-bezier(0.250, 0.460, 0.450, 0.940) 0.5s;
@@ -82,48 +80,8 @@
 }
 
 
-
-// .card-narrow.ng-enter,
-// .card-narrow.ng-leave {
-//   -webkit-transition: color 0.6s, background-color 0.3s;
-//   -moz-transition: color 0.6s, background-color 0.3s;
-//   -ms-transition: color 0.6s, background-color 0.3s;
-//   transition: color 0.6s, background-color 0.3s;
-// }
-// .card-narrow.ng-leave.card-narrow.ng-leave-active,
-// .card-narrow.ng-enter {
-//   animation: bounceIn 1s;
-// }
-// .card-narrow.ng-enter.card-narrow.ng-enter-active,
-// .card-narrow.ng-leave {
-//   animation: bounceOut 1s;
+// .card, {
+//   -webkit-transition:all cubic-bezier(0.250, 0.460, 0.450, 0.940) 0.5s;
+//   transition:all cubic-bezier(0.250, 0.460, 0.450, 0.940) 0.5s;
 // }
 
-
-// .card-narrow.ng-leave {
-//   animation: bounceOut 1s;
-// }
-
-// .card-wide.ng-enter {
-//   animation: bounceIn 1s; 
-// }
-// .card-wide.ng-leave {
-//   animation: bounceOut 1s;
-// }
-
-// Show recipe list animations
-// Recipe list animations
-// .animate-recipe.ng-enter,
-// .animate-recipe.ng-leave {
-//   transition: 0.5s ease-in all;
-//   position: relative;
-//   display: block;
-// }
-// .animate-recipe.ng-leave.animate-recipe.ng-leave-active,
-// .animate-recipe.ng-enter {
-//   left: 500px;
-// }
-// .animate-recipe.ng-enter.ng-enter-active,
-// .animate-recipe.ng-leave {
-//   left: 0;
-// }

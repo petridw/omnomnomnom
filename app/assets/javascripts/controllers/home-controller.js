@@ -119,6 +119,7 @@ function HomeController($http, RecipeList, Recipe, IngredientMetadata, Ingredien
         .success(function(data, status, headers, config) {
           recipe.isLoading = false;      // turn off loading spinner
           recipe.expandedInfo = data;    // give recipe its expanded data
+          resizeCard(recipe.id);
         })
         .error(function(data, status, headers, config) {
           recipe.isLoading = false;    // turn off loading spinner

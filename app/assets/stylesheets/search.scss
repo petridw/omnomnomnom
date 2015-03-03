@@ -43,6 +43,20 @@
   font-weight: bold;
   font-size: 2em;
   padding: 3px 7px;
+  // border: 2px outset #b37d00;
+  border-bottom: 3px outset $blue;
+  border-right: 3px outset $blue;
+  outline: 0;
+
+  &:focus {
+    outline: 0;
+  }
+
+  &:active {
+    border-bottom: 3px inset $blue;
+    border-right: 3px inset $blue;
+    outline: 0;
+  }
 
   .fa.fa-cutlery {
     font-size: .85em;

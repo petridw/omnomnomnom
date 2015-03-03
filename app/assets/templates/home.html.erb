@@ -71,7 +71,7 @@
     <!-- submit form -->
     <div class="form-group col-sm-6 col-sm-offset-3 text-center">
       <button type="submit" class="btn btn-primary btn-lg search-submit-button">
-        <i class="fa fa-cutlery"></i> get cooking
+        <i class="fa fa-cutlery"></i> let's cook!
       </button>
     </div>
   </form>
@@ -115,7 +115,7 @@
         class="animate-recipe animated bounceIn">
     <div class="card card-{{recipe.id}}" ng-click="vm.clickRecipe(recipe)" >
 
-      <!-- only displayed when the card is unselected -->
+      <!---------- only displayed when the card is unselected --------->
       <div class="card-narrow" ng-if="!recipe.isSelected" >
 
         <!-- !!! change header so that image and text are side by side taking up half the space in the card -->
@@ -154,7 +154,7 @@
         </div>
       </div>
 
-      <!-- only displayed when this card is selected -->
+      <!--------- only displayed when this card is selected --------->
       <div class="card-wide" ng-if="recipe.isSelected">
         
         <!-- show spinner while api call still running -->

@@ -19,7 +19,8 @@
 //= require angular-resource
 //= require angular-ui-router
 //= require angular-rails-templates
-//= ui-bootstrap-tpls-0.12.1.min
+//= ui-bootstrap.min
+//= angular-animate
 
 //= require twitter/typeahead.min
 

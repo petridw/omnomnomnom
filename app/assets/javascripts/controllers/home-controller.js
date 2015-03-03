@@ -16,13 +16,23 @@ function HomeController($http, RecipeList, Recipe, IngredientMetadata, Ingredien
 
   var vm = this;
 
+  vm.titles = [
+    "Get your fridge on.",
+    "Fridger it out.",
+    "What's in your fridget?",
+    "Go fridge yourself.",
+    "Fridgin' awesome.",
+    "Fridgeddaboudit",
+    "What the fridge?"
+  ];
+
   // Data store:
   vm.keywords           = "";                     // holds keywords that were searched for
   vm.ingredientsData    = [];                     // holds ingredient metadata from yummly
   vm.recipes            = [];                     // holds list of returned recipes from api call
   vm.order              = "ingredientPercentage"; // default order for recipe list
   vm.reverse            = true;                   // default direction to order recipe list
-  vm.limit              = 20;                     // default limit for num recipes to show
+  vm.limit              = 12;                     // default limit for num recipes to show
   vm.includeIngredient  = "";
   vm.excludeIngredient  = "";
 
@@ -184,7 +194,19 @@ function HomeController($http, RecipeList, Recipe, IngredientMetadata, Ingredien
 
   vm.loadMoreResults = function() {
     if (vm.limit < 500) {
-      vm.limit += 20;
+      width = $( window ).width();
+
+      // Add 1 row worth of new recipes to the view.
+      if (width >= 1200) {
+        vm.limit += 6;
+      } else if (width >= 992) {
+        vm.limit += 4;
+      } else if (width >= 768) {
+        vm.limit += 3;
+      } else {
+        vm.limit += 1;
+      }
+
     }
   };
 

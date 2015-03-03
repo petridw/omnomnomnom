@@ -1,5 +1,11 @@
 angular
-  .module('goodbelly', ['ngResource', 'ui.router', 'templates', 'ui.bootstrap', 'infinite-scroll', 'autofocus'])
+  .module('goodbelly', ['ngResource', 
+                        'ui.router', 
+                        'templates', 
+                        'ui.bootstrap', 
+                        'infinite-scroll', 
+                        'autofocus',
+                        'ngAnimate'])
 
   .config([
     '$stateProvider',
@@ -15,7 +21,8 @@ angular
           url: '/?keywords&ingredients&excludedIngredients',
           params: {
             keywords: "",
-            ingredients: ""
+            ingredients: "",
+            excludedIngredients: ""
           },
           templateUrl: 'home.html',
           controller: 'HomeController',

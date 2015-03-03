@@ -5,6 +5,12 @@ body {
     padding: 0;
     font-family: $base-font-family;
     background: $base-background-color;
+
+    .form-control, .btn-default {
+      background: lighten($base-background-color, 3%);
+    }
+
+    
 }
 
 
@@ -48,4 +54,5 @@ h1 {
   font-weight: bold;
   font-size: 4.5em;
 }
+
 

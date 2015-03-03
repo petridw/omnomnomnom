@@ -6,28 +6,34 @@
 
   $ingredient-background: white;
   $ingredient-hover-background: darken($ingredient-background, 10%);
-  $ingredient-font-color: lighten(black, 13%);
+  $ingredient-font-color: $blue;
+  $ingredient-font-family: $title-font-family;
 
   .have-ingredient {
     display: inline-block;
     position: relative;
-    font-size: 1.1em;
-    border: 1px solid grey;
-    border-radius: 4px;
-    margin: 3px;
-    padding: 2px;
-    background-color: $ingredient-background;
+    font-family: $ingredient-font-family;
+    font-weight: bold;
+    font-size: 2em;
+    padding-left: 3px;
+    // border: 1px solid grey;
+    // border-radius: 4px;
+    // margin: 3px;
+    // padding: 2px;
+    // background-color: $ingredient-background;
     color: $ingredient-font-color;
 
     &:focus,
     &:hover {
       background-color: $ingredient-hover-background;
+      border-radius:8px;
       cursor: pointer;
       cursor: hand;
     }
 
     .ingredient-hover {
       position: absolute;
+      font-size: 20px;
       margin: 0;
       // left: 0;
       right: 0;

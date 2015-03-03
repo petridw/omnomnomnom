@@ -20,7 +20,7 @@
             ng-mouseenter="vm.hoveredIngredient = $index" 
             ng-mouseleave="vm.hoveredIngredient = -1" 
             ng-click="vm.removeIngredient(ingredient, false)">
-        {{ingredient}}
+        {{ingredient}}<span class="list-comma">{{$last ? '' : ', '}}</span>
         <i class="fa fa-minus-square ingredient-hover" ng-if="vm.hoveredIngredient === $index"></i>
         </span>
     </div>
@@ -87,7 +87,7 @@
 
 <form ng-if="vm.searchResults" class="row">
 
-  <div class="form-group col-sm-2 col-sm-offset-5 text-center">
+  <div class="form-group col-sm-4 col-sm-offset-4 text-center order-select">
     <label for="order-by">Order by:</label>
     <select name="order-by" class="form-control" ng-model="vm.order" name="Order by">
       <option value="recipeName">Recipe Name</option>

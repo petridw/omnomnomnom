@@ -110,8 +110,8 @@
 
   <!-- selected-card class can override all normal card styles bc of specificity of the css selector -->
   <div  ng-repeat="recipe in vm.recipes | filter:vm.matchIngredients() | orderBy:vm.order:vm.reverse | limitTo:vm.limit" 
-        ng-class="{true: 'selected-card col-lg-6 col-md-8 col-sm-10', false: 'col-lg-2 col-md-3 col-sm-4'}[recipe.isSelected]"
-        class="animate-recipe animated bounceIn">
+        ng-class="{true: 'selected-card col-lg-6 col-md-6 col-sm-8', false: 'col-lg-2 col-md-3 col-sm-4'}[recipe.isSelected]"
+        class="animate-recipe animated fadeIn">
     <div class="card card-{{recipe.id}}" ng-click="vm.clickRecipe(recipe)" >
 
       <!---------- only displayed when the card is unselected --------->

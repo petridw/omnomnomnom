@@ -1,21 +1,4 @@
 
-// Ingredient list animations
-// These potentially don't work because the state change messes them up (not sure though)
-.have-ingredient.ng-enter,
-.have-ingredient.ng-leave {
-  transition: 0.5s ease-in all;
-  position: relative;
-  display: block;
-}
-.have-ingredient.ng-leave.have-ingredient.ng-leave-active,
-.have-ingredient.ng-enter {
-  left: 500px;
-}
-.have-ingredient.ng-enter.ng-enter-active,
-.have-ingredient.ng-leave {
-  left: 0;
-}
-
 
 // Ingredient hover animations
 .ingredient-hover.ng-enter,
@@ -32,24 +15,9 @@
 }
 
 
-// Recipe card animations
-// .card-narrow.ng-enter, .card-narrow.ng-leave {
-//   -webkit-transition:all cubic-bezier(0.250, 0.460, 0.450, 0.940) 0.5s;
-//   transition:all cubic-bezier(0.250, 0.460, 0.450, 0.940) 0.5s;
-// }
-
-// .card-narrow.ng-enter,
-// .card-narrow.ng-leave.ng-leave-active {
-//   opacity:0;
-// }
-
-// .card-narrow.ng-leave,
-// .card-narrow.ng-enter.ng-enter-active {
-//   opacity:1;
-// }
 .card-wide.ng-enter {
-  -webkit-transition:all cubic-bezier(0.250, 0.460, 0.450, 0.940) 0.5s;
-  transition:all cubic-bezier(0.250, 0.460, 0.450, 0.940) 0.5s;
+  -webkit-transition:all cubic-bezier(0.250, 0.460, 0.450, 0.940) 1s;
+  transition:all cubic-bezier(0.250, 0.460, 0.450, 0.940) 1s;
 }
 
 .card-wide.ng-enter,
@@ -64,8 +32,11 @@
 
 .animate-recipe,
 .animate-recipe.ng-move {
-  -webkit-transition:all cubic-bezier(0.250, 0.460, 0.450, 0.940) 0.5s;
-  transition:all cubic-bezier(0.250, 0.460, 0.450, 0.940) 0.5s;
+  // -webkit-transition:all cubic-bezier(0.250, 0.460, 0.450, 0.940) 0.5s;
+  // transition:all cubic-bezier(0.250, 0.460, 0.450, 0.940) 0.5s;
+  -webkit-transition:all cubic-bezier(.42,0,.58,1) .7s;
+  transition:all cubic-bezier(.42,0,.58,1) .7s;
+  
 }
 
 

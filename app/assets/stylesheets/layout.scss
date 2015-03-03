@@ -23,8 +23,9 @@ body {
     text-align: center;
     margin: 0;
     padding: 8px 0 0 0;
-    background: $base-footer-color;
+    background: #F1F1F1;
     border-top: $base-border;
+    // color: white;
 
     // Footer starts at bottom of page and is pushed off by new content
     bottom: 0;
@@ -34,7 +35,7 @@ body {
     width: 100%;
 
     .yummly-logo {
-      max-width: 4em;
+      max-width: 4.5em;
     }
 }
 

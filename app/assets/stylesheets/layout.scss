@@ -24,6 +24,16 @@ body {
     position: relative;
 }
 
+header {
+  .title-icon {
+    text-align: center;
+    img {
+      padding-top: 20px;
+      max-width: 90px;
+    }
+  }
+}
+
 .attr-footer {
     width: 100%;
     text-align: center;
@@ -53,6 +63,12 @@ h1 {
   font-family: $title-font-family;
   font-weight: bold;
   font-size: 4.5em;
+}
+
+a {
+  &:hover {
+    text-decoration: none;
+  }
 }
 
 

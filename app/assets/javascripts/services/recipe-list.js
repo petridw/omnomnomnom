@@ -40,7 +40,7 @@ angular
         var updateRecipes = false;
 
         if  ( (service.keywords !== keywords) || 
-              (service.addedIngredient && (service.recipes.length >= 250)) || 
+              (service.addedIngredient && (service.recipes.length >= 300)) || 
               (service.removedIngredient) ||
               (service.recipes.length === 0)
             ) {

@@ -143,13 +143,15 @@ function HomeController($http, RecipeList, Recipe, IngredientMetadata, Ingredien
       if ((vm.excludeIngredient !== "") && (!vm.ingredientList.hasExactIngredient(vm.excludeIngredient, true))) {
         vm.ingredientList.addIngredient(vm.excludeIngredient, true);
         RecipeList.addIngredient();
-        vm.search();
+        vm.excludeIngredient = "";
+        // vm.search();
       }
     } else {
       if ((vm.includeIngredient !== "") && (!vm.ingredientList.hasExactIngredient(vm.includeIngredient, false))) {
         vm.ingredientList.addIngredient(vm.includeIngredient, false);
         RecipeList.addIngredient();
-        vm.search();
+        vm.includeIngredient = "";
+        // vm.search();
       }
     }
   };

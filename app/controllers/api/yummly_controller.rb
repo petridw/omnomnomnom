@@ -2,8 +2,8 @@ module Api
   class YummlyController < ApplicationController
 
     API_URL = "http://api.yummly.com/v1/api"
-    MAX_RESULT = 250
-    LIMIT_TO = 250
+    MAX_RESULT = 300
+    LIMIT_TO = 300
     ALT_IMG_URL = "http://upload.wikimedia.org/wikipedia/commons/thumb/a/ac/No_image_available.svg/300px-No_image_available.svg.png"
 
     def recipes

@@ -85,10 +85,11 @@
   </div>
 </section>
 
-<form ng-if="vm.searchResults" class="row">
+<form ng-if="vm.searchResults" class="form-inline order-by-form">
 
-  <div class="form-group col-sm-4 col-sm-offset-4 text-center order-select">
-    <label for="order-by">Order by:</label>
+  <div class="form-group text-left">
+    <label for="order-by">Order by</label>
+
     <select name="order-by" class="form-control" ng-model="vm.order" name="Order by">
       <option value="recipeName">Recipe Name</option>
       <option value="rating">Rating</option>
@@ -98,12 +99,10 @@
     </select>
   </div>
 
-  <div class="form-group col-sm-2 col-sm-offset-5 text-center">
-    <button type="button" class="btn btn-info" ng-click="vm.reverse = !vm.reverse">
-      Order
-      <i class="fa" ng-class="{ 'fa-arrow-circle-up': vm.reverse, 'fa-arrow-circle-down': !vm.reverse }"></i>
-    </button>
-  </div>
+  <button type="button" class="btn btn-default" ng-click="vm.reverse = !vm.reverse">
+    <i class="fa" ng-class="{ 'fa-arrow-circle-up': vm.reverse, 'fa-arrow-circle-down': !vm.reverse }"></i>
+  </button>
+
 </form>
 
 <!-- -------------------- List of Recipes -------------------- -->

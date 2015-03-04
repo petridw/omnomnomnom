@@ -33,8 +33,7 @@ function HomeController($http, RecipeList, Recipe, IngredientMetadata, Ingredien
   vm.order              = "ingredientPercentage"; // default order for recipe list
   vm.reverse            = true;                   // default direction to order recipe list
   vm.limit              = 12;                     // default limit for num recipes to show
-  vm.includeIngredient  = "";
-  vm.excludeIngredient  = "";
+  vm.ingredient         = "";
 
   vm.ingredientList = new IngredientList("", ""); // holds list of included/excluded ingredients
 
@@ -108,7 +107,6 @@ function HomeController($http, RecipeList, Recipe, IngredientMetadata, Ingredien
   vm.clickRecipe = function(recipe) {
 
     recipe.isSelected = !recipe.isSelected;
-    console.log("what the eff is happening");
 
     if ((recipe.isSelected) && (recipe.expandedInfo === null)) {
 
@@ -140,17 +138,17 @@ function HomeController($http, RecipeList, Recipe, IngredientMetadata, Ingredien
   // if exclude is true then add ingredient to excluded list instead
   vm.addIngredient = function(exclude) {
     if (exclude) {
-      if ((vm.excludeIngredient !== "") && (!vm.ingredientList.hasExactIngredient(vm.excludeIngredient, true))) {
-        vm.ingredientList.addIngredient(vm.excludeIngredient, true);
+      if ((vm.ingredient !== "") && (!vm.ingredientList.hasExactIngredient(vm.ingredient, true))) {
+        vm.ingredientList.addIngredient(vm.ingredient, true);
         RecipeList.addIngredient();
-        vm.excludeIngredient = "";
+        vm.ingredient = "";
         // vm.search();
       }
     } else {
-      if ((vm.includeIngredient !== "") && (!vm.ingredientList.hasExactIngredient(vm.includeIngredient, false))) {
-        vm.ingredientList.addIngredient(vm.includeIngredient, false);
+      if ((vm.ingredient !== "") && (!vm.ingredientList.hasExactIngredient(vm.ingredient, false))) {
+        vm.ingredientList.addIngredient(vm.ingredient, false);
         RecipeList.addIngredient();
-        vm.includeIngredient = "";
+        vm.ingredient = "";
         // vm.search();
       }
     }
@@ -165,13 +163,8 @@ function HomeController($http, RecipeList, Recipe, IngredientMetadata, Ingredien
   };
 
   // callback for selecting a field from the typeahead dropdown
-  vm.onSelectInclude = function ($item, $model, $label) {
-    vm.includeIngredient = $item.searchValue;
-  };
-
-  // callback for selecting a field from the typeahead dropdown
-  vm.onSelectExclude = function ($item, $model, $label) {
-    vm.excludeIngredient = $item.searchValue;
+  vm.onSelect = function ($item, $model, $label) {
+    vm.ingredient = $item.searchValue;
   };
 
   // !!! this should be somewhere else, not in controller

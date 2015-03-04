@@ -161,7 +161,7 @@ function HomeController($http, RecipeList, Recipe, IngredientMetadata, Ingredien
   vm.removeIngredient = function(ingredient, exclude) {
     vm.ingredientList.removeIngredient(ingredient, exclude);
     RecipeList.removeIngredient();
-    vm.search();
+    // vm.search();
   };
 
   // callback for selecting a field from the typeahead dropdown
@@ -254,6 +254,11 @@ function HomeController($http, RecipeList, Recipe, IngredientMetadata, Ingredien
       return true;
     };
 
+  };
+
+  vm.showIcons = function() {
+    console.log("window width: " + $( window ).width());
+    return ($( window ).width() >= 768);
   };
 
 

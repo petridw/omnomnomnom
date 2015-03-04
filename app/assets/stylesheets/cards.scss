@@ -53,6 +53,10 @@
       }
     }
 
+    .card-ing-percentage span {
+      font-weight: 700;
+    }
+
     .card-header {
       border-bottom: $card-border;
       border-radius: $base-border-radius $base-border-radius 0 0;
@@ -86,7 +90,7 @@
         color: $blue;
       }
       .list-comma {
-        font-weight: norma;
+        font-weight: normal;
         color: black;
       }
     }

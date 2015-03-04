@@ -1,3 +1,9 @@
+.search-section {
+  font-family: $base-font-family;
+  // font-weight: 700;
+  font-size: 1.2em;
+}
+
 .spinner {
   margin-bottom: 15px;
 }
@@ -40,6 +46,16 @@
       top: 0;
       color: #CA3128;
     }
+
+
+
+    &.excluded {
+      text-decoration: line-through;
+
+      .list-comma {
+        text-decoration: none;
+      }
+    }
   }
 
 }
@@ -74,9 +90,30 @@
 
 }
 
+.ingredient-forms {
+  .ingredient-input {
+    // width: 100%;
+
+
+
+    // .form-group {
+
+    //   .form-control {
+    //     width: 65%;
+    //   }
+
+    //   button {
+    //     max-width: 5px;
+    //   }
+    // }
+  }
+
+}
+
 .order-by-form {
   margin-bottom: 15px;
-  .save-search {
+  .save-search, .reset-search {
+    margin-left: 3px;
     display: inline-block;
     float: right;
   }

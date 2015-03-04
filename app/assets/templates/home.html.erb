@@ -1,20 +1,101 @@
-<!-- -------------------- Search Form -------------------- -->
-<section class="row">
-  <form ng-submit= "vm.search()">
+<header class="row">
+  <div class="title-icon col-sm-2 col-sm-offset-1 hidden-xs">
+    <img src="https://cdn2.iconfinder.com/data/icons/windows-8-metro-style/512/fridge.png" alt="fridge icon">
+  </div>
+  <h1 class="col-sm-6 text-center">
+    <!-- !!! fix this somehow so that keywords and ingredients don't show up in url -->
+    <a ui-sref="home({keywords: '', ingredients: '', excludedIngredients: ''})" class="main-title">
+      get your fridge on.
+    </a>
+    
+    <!-- Fridger it out. -->
+    <!-- What's in your fridget? -->
+    <!-- Go fridge yourself. -->
+    <!-- Fridgin' awesome. -->
+    <!-- Fridgeddaboudit -->
+    <!-- What the fridge? -->
 
-    <!-- keywords input -->
-    <div class="form-group col-sm-6 col-sm-offset-3">
-      <label for="keywords" class="sr-only">Keywords</label>
-      <input  type="text" 
-              autofocus="{{vm.keywords.length <= 0}}"
-              ng-model="vm.keywords" 
-              name="keywords" 
-              class="form-control" 
-              placeholder="Recipe name or keyword">
+  </h1>
+  <div class="title-icon col-sm-2 hidden-xs">
+    <img src="http://megaicons.net/static/img/icons_sizes/8/178/512/kitchen-coking-pot-icon.png" alt="cooking pot icon">
+  </div>
+</header>
+
+
+
+<section class="search-section">
+
+
+  <div class="row">
+    <form ng-submit= "vm.search()">
+
+      <!-- keywords input -->
+      <div class="form-group col-sm-6 col-sm-offset-3 text-center">
+        <label for="keywords" class="sr-only">Search keywords</label>
+        <input  type="text" 
+                autofocus="{{vm.keywords.length <= 0}}"
+                ng-model="vm.keywords" 
+                name="keywords" 
+                class="form-control" 
+                placeholder="Recipe name or keyword, e.g. Tomato Soup">
+      </div>
+    </form>
+  </div>
+
+  <div class="row ingredient-forms">
+    <!-- -------------------- Include Ingredient Form -------------------- -->
+    <div class="col-sm-3 col-sm-offset-3 text-left">
+      <form class="form-inline" ng-submit="!vm.includeIngredient || vm.addIngredient(false)">
+        <!-- included ingredients input -->
+        <span>I've got some:</span>
+        <div class="form-group ingredient-input">
+          <label for="include-ingredient-input" class="sr-only">Ingredient to include in search</label>
+          <input  typeahead="ingredient as ingredient.searchValue for ingredient in vm.ingredientsData | filter:$viewValue | limitTo:10" 
+                  typeahead-on-select="vm.onSelectInclude($item, $model, $label)" 
+                  class="form-control" type="text"
+                  name="include-ingredient-input"
+                  placeholder="Ingredient to include"
+                  ng-model="vm.includeIngredient"
+                  autofocus="{{vm.keywords.length>0}}">
+
+          <button type="submit" class="btn btn-default text-center">
+            <!-- <i class="fa fa-plus"></i> -->
+            <i class="fa fa-check-square-o"></i>
+          </button>
+        </div>
+      </form>
     </div>
 
-    <!-- have ingredients list -->
-    <div class="have-ingredient-list form-group col-sm-6 col-sm-offset-3 text-center" ng-if="vm.ingredientList.ingredients.length > 0">
+    <!-- -------------------- Exclude Ingredient Form -------------------- -->
+    <div class="col-sm-3 text-right">
+      <form class="form-inline" ng-submit="!vm.excludeIngredient || vm.addIngredient(true)">
+        <!-- excluded ingredients input -->
+        ... but I don't have any:
+        <div class="form-group ingredient-input">
+          <label for="ingredients" class="sr-only">Ingredient to exclude from search</label>
+          <input  typeahead="ingredient as ingredient.searchValue for ingredient in vm.ingredientsData | filter:$viewValue | limitTo:10" 
+                  typeahead-on-select="vm.onSelectExclude($item, $model, $label)" 
+                  class="form-control" type="text"
+                  name="exclude-ingredient-input"
+                  placeholder="Ingredient to exclude"
+                  ng-model="vm.excludeIngredient">
+
+          <button type="submit" class="btn btn-default text-center">
+            <!-- <i class="fa fa-minus"></i> -->
+            <i class="fa fa-ban"></i>
+          </button>
+        </div>
+      </form>
+    </div>
+  </div>
+
+
+
+  <!-- -------------------- Ingredient Lists -------------------- -->
+  <div class="row ingredient-lists">
+
+    <!------ have ingredients list ------>
+    <div class="have-ingredient-list form-group col-sm-3 col-sm-offset-3 text-center">
       <span class="have-ingredient"
             ng-repeat="ingredient in vm.ingredientList.ingredients" 
             ng-mouseenter="vm.hoveredIngredient = $index" 
@@ -25,60 +106,35 @@
         </span>
     </div>
 
-    <!-- included ingredients input -->
-    <div class="form-group col-sm-5 col-sm-offset-3 text-center">
-      <label for="ingredients" class="sr-only">Ingredients</label>
-      <input  typeahead="ingredient as ingredient.searchValue for ingredient in vm.ingredientsData | filter:$viewValue | limitTo:10" 
-              typeahead-on-select="vm.onSelectInclude($item, $model, $label)" 
-              class="form-control" type="text"
-              placeholder="Ingredient to include, e.g. butter"
-              ng-model="vm.includeIngredient"
-              autofocus="{{vm.keywords.length>0}}"
-              heh-enter="console.log('Enter key pressed!');">
-    </div>
-    <div class="form-group col-sm-1 text-right">
-      <button type="button" ng-click="!vm.includeIngredient || vm.addIngredient(false)" class="btn btn-default text-center">
-        <!-- <i class="fa fa-plus"></i> -->
-        <i class="fa fa-check-square-o"></i>
-      </button>
-    </div>
-
-    <!-- exclude ingredients list -->
-    <div class="have-ingredient-list form-group col-sm-6 col-sm-offset-3 text-center" ng-if="vm.ingredientList.excludedIngredients.length > 0">
-      <span class="have-ingredient"
+    <!------ exclude ingredients list ------>
+    <div class="have-ingredient-list form-group col-sm-3 text-center">
+      <span class="have-ingredient excluded"
             ng-repeat="ingredient in vm.ingredientList.excludedIngredients" 
             ng-mouseenter="vm.hoveredExcludedIngredient = $index" 
             ng-mouseleave="vm.hoveredExcludedIngredient = -1" 
             ng-click="vm.removeIngredient(ingredient, true)">
-        {{ingredient}}
+        {{ingredient}}<span class="list-comma">{{$last ? '' : ', '}}</span>
         <i class="fa fa-minus-square ingredient-hover" ng-if="vm.hoveredExcludedIngredient === $index"></i>
         </span>
     </div>
 
-    <!-- excluded ingredients input -->
-    <div class="form-group col-sm-5 col-sm-offset-3 text-center">
-      <label for="ingredients" class="sr-only">Ingredients</label>
-      <input  typeahead="ingredient as ingredient.searchValue for ingredient in vm.ingredientsData | filter:$viewValue | limitTo:10" 
-              typeahead-on-select="vm.onSelectExclude($item, $model, $label)" 
-              class="form-control" type="text"
-              placeholder="Ingredient to exclude, e.g. curry leaf"
-              ng-model="vm.excludeIngredient">
-    </div>
-    <div class="form-group col-sm-1 text-right">
-      <button type="button" ng-click="!vm.excludeIngredient || vm.addIngredient(true)" class="btn btn-default text-center">
-        <!-- <i class="fa fa-minus"></i> -->
-        <i class="fa fa-ban"></i>
-      </button>
-    </div>
+  </div>
 
-    <!-- submit form -->
-    <div class="form-group col-sm-6 col-sm-offset-3 text-center">
-      <button type="submit" class="btn btn-primary btn-lg search-submit-button">
-        <i class="fa fa-cutlery"></i> let's cook!
-      </button>
-    </div>
-  </form>
+
+  <!-- -------------------- Keywords / Search Form -------------------- -->
+
+  <div class="row">
+    <form ng-submit="vm.search()">
+      <!-- submit form -->
+      <div class="form-group col-sm-6 col-sm-offset-3 text-center">
+        <button type="submit" class="btn btn-primary btn-lg search-submit-button">
+          <i class="fa fa-cutlery"></i> let's cook!
+        </button>
+      </div>
+    </form>
+  </div>
 </section>
+
 
 <!-- -------------------- Spinner -------------------- -->
 <section ng-if="vm.loading" class="row">
@@ -87,6 +143,10 @@
     <i class="fa fa-spinner fa-pulse fa-4x"></i>
   </div>
 </section>
+
+
+
+<!-- -------------------- Recipe List Options Bar -------------------- -->
 
 <form ng-if="vm.searchResults" class="form-inline order-by-form">
 
@@ -106,9 +166,9 @@
   </div>
 
   <span title="Reverse order">
-    <button type="button" class="btn btn-default text-right" ng-click="vm.reverse = !vm.reverse">
-      <i class="fa" ng-class="{ 'fa-arrow-circle-up': vm.reverse, 'fa-arrow-circle-down': !vm.reverse }"></i>
-    </button>
+      <button type="button" class="btn btn-default text-right" ng-click="vm.reverse = !vm.reverse">
+        <i class="fa" ng-class="{ 'fa-arrow-circle-up': vm.reverse, 'fa-arrow-circle-down': !vm.reverse }"></i>
+      </button>
   </span>
 
   <span title="Copy this search address" class="save-search">
@@ -116,7 +176,18 @@
       <i class="fa fa-bookmark"></i>
     </button>
   </span>
+
+  <span title="Reset search" class="reset-search">
+    <a ui-sref="home({keywords: '', ingredients: '', excludedIngredients: ''})" class="main-title">
+      <button type="button" class="btn btn-default">
+        <i class="fa fa-bomb"></i>
+      </button>
+    </a>
+  </span>
+
 </form>
+
+
 
 <!-- -------------------- List of Recipes -------------------- -->
 <section ng-if="vm.searchResults" infinite-scroll="vm.loadMoreResults()"  class="row text-center">
@@ -148,7 +219,7 @@
             </span>
           </div>
           <div class="card-ing-percentage">
-            Ingredients: {{recipe.ingredientPercentage}}% ({{recipe.ingredientMatches}} / {{recipe.totalIngredients}})
+            <span>Ingredients:</span> {{recipe.ingredientPercentage}}% ({{recipe.ingredientMatches}} / {{recipe.totalIngredients}})
           </div>
           <div class="card-time">
             <span ng-if="recipe.totalTimeInSeconds">

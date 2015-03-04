@@ -51,6 +51,7 @@
 
     &.excluded {
       text-decoration: line-through;
+      color: $yummly-font-color;
 
       .list-comma {
         text-decoration: none;

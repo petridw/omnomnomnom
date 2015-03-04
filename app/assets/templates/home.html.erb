@@ -1,8 +1,8 @@
 <header class="row">
-  <div class="title-icon col-sm-2 col-sm-offset-1 hidden-xs">
+<!--   <div class="title-icon col-sm-2 col-sm-offset-1 hidden-xs">
     <img src="https://cdn2.iconfinder.com/data/icons/windows-8-metro-style/512/fridge.png" alt="fridge icon">
-  </div>
-  <h1 class="col-sm-6 text-center">
+  </div> -->
+  <h1 class="col-sm-6 col-sm-offset-3 text-center">
     <!-- !!! fix this somehow so that keywords and ingredients don't show up in url -->
     <a ui-sref="home({keywords: '', ingredients: '', excludedIngredients: ''})" class="main-title">
       get your fridge on.
@@ -16,9 +16,9 @@
     <!-- What the fridge? -->
 
   </h1>
-  <div class="title-icon col-sm-2 hidden-xs">
+<!--   <div class="title-icon col-sm-2 hidden-xs">
     <img src="http://megaicons.net/static/img/icons_sizes/8/178/512/kitchen-coking-pot-icon.png" alt="cooking pot icon">
-  </div>
+  </div> -->
 </header>
 
 
@@ -58,17 +58,19 @@
       </div>
     </div>
     <div class="form-group">
-      <div class="col-sm-3 col-sm-offset-3 text-center">
+      <div class="col-sm-3 col-sm-offset-3 text-right">
+        Oo I've got this!
         <button type="button" ng-click="!vm.ingredient || vm.addIngredient(false)" class="btn btn-default text-center" >
           <!-- <i class="fa fa-plus"></i> -->
           <i class="fa fa-plus"></i>
         </button>
       </div>
-      <div class="col-sm-3 text-center">
+      <div class="col-sm-3 text-left">
         <button type="button" ng-click="!vm.ingredient || vm.addIngredient(true)" class="btn btn-default text-center">
           <!-- <i class="fa fa-minus"></i> -->
           <i class="fa fa-minus"></i>
         </button>
+        Uh oh, don't have this :(
       </div>
     </div>
   </form>

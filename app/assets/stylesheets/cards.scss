@@ -26,6 +26,7 @@
   // box-shadow: 0 2px 4px darken($base-background-color, 10%);
   height: 350px;
   margin-bottom: $base-spacing;
+  box-sizing: border-box;
   overflow: auto;
 
   .card-rating {
@@ -107,14 +108,23 @@
     padding: 0;
     overflow: hidden;
 
+    .card-image {
+      img {
+          float: left;
+          max-width: 348px;
+          max-height: 348px;
+        }
+    }
+
     .card-header {
 
-      height: 100px;
+      height: 118px;
       text-align: left;
+      overflow: auto;
 
       .card-header-text {
-        margin-left: 350px;
-        padding: 20px 15px;
+        // margin-left: 350px;
+        padding: 10px 10px 0px 10px;
         text-align: center;
 
         font-size: 1.2em;
@@ -127,17 +137,20 @@
         }
       }
 
-      img {
-        float: left;
-        max-width: 349px;
-      }
+    .card-rating {
+      padding: 0;
+      text-align: center;
+      color: $yummly-font-color;
+    }
+
     }
 
     .card-info {
+      box-sizing: border-box;
       height: 100%;
       text-align: left;
       margin-left: 350px;
-      height: 250px;
+      height: 230px;
       border-top: $card-border;
       overflow: auto;
 

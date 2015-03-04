@@ -1,11 +1,16 @@
 .search-section {
   font-family: $base-font-family;
   // font-weight: 700;
-  font-size: 1.2em;
 }
 
 .spinner {
   margin-bottom: 15px;
+}
+
+.ingredient-input {
+  label {
+    text-align: right;
+  }
 }
 
 .have-ingredient-list {

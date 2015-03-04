@@ -126,7 +126,7 @@ function HomeController($http, RecipeList, Recipe, IngredientMetadata, Ingredien
 
     } else {
       // console.log("huh?");
-      // resizeCardInfo(recipe.id);
+      resizeCard(recipe.id);
     }
 
   };
@@ -142,14 +142,14 @@ function HomeController($http, RecipeList, Recipe, IngredientMetadata, Ingredien
         vm.ingredientList.addIngredient(vm.ingredient, true);
         RecipeList.addIngredient();
         vm.ingredient = "";
-        // vm.search();
+        vm.search();
       }
     } else {
       if ((vm.ingredient !== "") && (!vm.ingredientList.hasExactIngredient(vm.ingredient, false))) {
         vm.ingredientList.addIngredient(vm.ingredient, false);
         RecipeList.addIngredient();
         vm.ingredient = "";
-        // vm.search();
+        vm.search();
       }
     }
   };
@@ -159,7 +159,7 @@ function HomeController($http, RecipeList, Recipe, IngredientMetadata, Ingredien
   vm.removeIngredient = function(ingredient, exclude) {
     vm.ingredientList.removeIngredient(ingredient, exclude);
     RecipeList.removeIngredient();
-    // vm.search();
+    vm.search();
   };
 
   // callback for selecting a field from the typeahead dropdown

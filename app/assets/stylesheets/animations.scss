@@ -30,6 +30,10 @@
   opacity:1;
 }
 
+.animate-recipe {
+  transition-delay: 1s;
+}
+
 .animate-recipe,
 .animate-recipe.ng-move {
   // -webkit-transition:all cubic-bezier(0.250, 0.460, 0.450, 0.940) 0.5s;

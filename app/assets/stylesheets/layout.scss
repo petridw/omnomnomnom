@@ -36,16 +36,18 @@ header {
 
 .attr-footer {
     width: 100%;
-    text-align: center;
+    text-align: right;
     margin: 0;
-    padding: 8px 0 0 0;
-    // background: #F1F1F1;
-    border-top: $base-border;
-    // color: white;
+    padding: 20px 10px 0 0;
+    background: #16a085;
+    background: #2A2A2A;
+    // border-top: $base-border;
+    color: white;
+    font-weight: bold;
 
     // Footer starts at bottom of page and is pushed off by new content
     bottom: 0;
-    height: 40px;
+    height: 60px;
     left: 0;
     position: absolute;
     width: 100%;

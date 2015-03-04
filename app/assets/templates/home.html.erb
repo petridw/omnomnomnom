@@ -5,7 +5,7 @@
   <h1 class="col-sm-6 col-sm-offset-3 text-center">
     <!-- !!! fix this somehow so that keywords and ingredients don't show up in url -->
     <a ui-sref="home({keywords: '', ingredients: '', excludedIngredients: ''})" class="main-title">
-      get your fridge on.
+      what's in your fridge?
     </a>
     
     <!-- Fridger it out. -->
@@ -20,57 +20,64 @@
     <img src="http://megaicons.net/static/img/icons_sizes/8/178/512/kitchen-coking-pot-icon.png" alt="cooking pot icon">
   </div> -->
 </header>
+<p class="text-center">The recipe search based on the ingredients you have on hand.</p>
+<p class="text-center"></p>
+
 
 
 
 <section class="search-section">
 
 
-  <div class="row">
-    <form ng-submit= "vm.search()">
+  <form class="form-horizontal" ng-submit= "vm.search()">
 
-      <!-- keywords input -->
-      <div class="form-group col-sm-6 col-sm-offset-3 text-center">
-        <label for="keywords" class="sr-only">Search keywords</label>
-        <input  type="text" 
-                autofocus="{{vm.keywords.length <= 0}}"
-                ng-model="vm.keywords" 
-                name="keywords" 
-                class="form-control" 
-                placeholder="Recipe name or keyword, e.g. Tomato Soup">
-      </div>
-    </form>
-  </div>
+    <!-- keywords input -->
 
-  <!-- -------------------- Include Ingredient Form -------------------- -->
-  <form class="form-horizontal">
-    <!-- included ingredients input -->
-    <div class="form-group ingredient-input">
+    <div class="form-group">
+      <label for="keywords" class="sr-only control-label">Search keywords</label>
       <div class="col-sm-6 col-sm-offset-3">
-        <label for="include-ingredient-input" class="sr-only">Ingredient to include in search</label>
-        <input  typeahead="ingredient as ingredient.searchValue for ingredient in vm.ingredientsData | filter:$viewValue | limitTo:10" 
-                typeahead-on-select="vm.onSelect($item, $model, $label)" 
-                class="form-control" type="text"
-                name="include-ingredient-input"
-                placeholder="An ingredient to include or exclude, e.g. cumin seeds"
-                ng-model="vm.ingredient"
-                autofocus="{{vm.keywords.length>0}}">
+        <input  type="text" 
+              autofocus="{{vm.keywords.length <= 0}}"
+              ng-model="vm.keywords" 
+              name="keywords" 
+              class="form-control" 
+              placeholder="Recipe name or keyword, e.g. Tomato Soup">
       </div>
     </div>
-    <div class="form-group">
-      <div class="col-sm-3 col-sm-offset-3 text-right">
-        Oo I've got this!
-        <button type="button" ng-click="!vm.ingredient || vm.addIngredient(false)" class="btn btn-default text-center" >
-          <!-- <i class="fa fa-plus"></i> -->
-          <i class="fa fa-plus"></i>
-        </button>
-      </div>
-      <div class="col-sm-3 text-left">
-        <button type="button" ng-click="!vm.ingredient || vm.addIngredient(true)" class="btn btn-default text-center">
-          <!-- <i class="fa fa-minus"></i> -->
-          <i class="fa fa-minus"></i>
-        </button>
-        Uh oh, don't have this :(
+  </form>
+
+  <!-- -------------------- Ingredient Form -------------------- -->
+  <form>
+    <!-- included ingredients input -->
+    <div class="row ingredient-input">
+
+      <label for="include-ingredient-input" class="sr-only control-label">
+        Ingredients
+      </label>
+
+      <div class="col-sm-6 col-sm-offset-3">
+
+        <div class="input-group">
+          <input  typeahead="ingredient as ingredient.searchValue for ingredient in vm.ingredientsData | filter:$viewValue | limitTo:10" 
+                  typeahead-on-select="vm.onSelect($item, $model, $label)" 
+                  class="form-control" type="text"
+                  name="include-ingredient-input"
+                  placeholder="Include or exclude a specific ingredient"
+                  ng-model="vm.ingredient"
+                  autofocus="{{vm.keywords.length>0}}">
+
+          <span class="input-group-btn">
+            <button type="button" ng-click="!vm.ingredient || vm.addIngredient(false)" class="btn btn-default text-center" >
+              <i class="fa fa-plus"></i>
+              Include
+            </button>
+            <button type="button" ng-click="!vm.ingredient || vm.addIngredient(true)" class="btn btn-default text-center">
+              <i class="fa fa-minus"></i>
+              Exclude
+            </button>
+          </span>
+
+        </div>
       </div>
     </div>
   </form>
@@ -97,7 +104,7 @@
   <div class="row ingredient-lists">
 
     <!------ have ingredients list ------>
-    <div class="have-ingredient-list form-group col-sm-3 col-sm-offset-3 text-center">
+    <div class="have-ingredient-list form-group col-sm-5 col-sm-offset-1 text-center">
       <span class="have-ingredient"
             ng-repeat="ingredient in vm.ingredientList.ingredients" 
             ng-mouseenter="vm.hoveredIngredient = $index" 
@@ -109,7 +116,7 @@
     </div>
 
     <!------ exclude ingredients list ------>
-    <div class="have-ingredient-list form-group col-sm-3 text-center">
+    <div class="have-ingredient-list form-group col-sm-5 text-center">
       <span class="have-ingredient excluded"
             ng-repeat="ingredient in vm.ingredientList.excludedIngredients" 
             ng-mouseenter="vm.hoveredExcludedIngredient = $index" 
@@ -196,7 +203,7 @@
 
   <!-- selected-card class can override all normal card styles bc of specificity of the css selector -->
   <div  ng-repeat="recipe in vm.recipes | filter:vm.matchIngredients() | orderBy:vm.order:vm.reverse | limitTo:vm.limit" 
-        ng-class="{true: 'selected-card col-lg-6 col-md-6 col-sm-8', false: 'col-lg-2 col-md-3 col-sm-4'}[recipe.isSelected]"
+        ng-class="{true: 'selected-card col-lg-6 col-md-9 col-sm-12', false: 'col-lg-2 col-md-3 col-sm-4'}[recipe.isSelected]"
         class="animate-recipe animated fadeIn">
     <div class="card card-{{recipe.id}}" ng-click="vm.clickRecipe(recipe)" >
 
@@ -251,13 +258,23 @@
         <!-- show card content once it's loaded -->
         <div ng-if="!recipe.isLoading">
 
-          <div class="card-header">
+          <div class="card-image">
             <img ng-src="{{ recipe.expandedInfo.images[0]['imageUrlsBySize']['360'] }}" alt="{{recipe.recipeName}} large image">
+          </div>
+
+          <div class="card-header">
+
             <div class="card-header-text">
               <h4>{{recipe.recipeName}}</h4>
               <a ng-click="$event.stopPropagation();" ng-href="{{ recipe.expandedInfo.source.sourceRecipeUrl }}">
                 <p>View full recipe steps at {{recipe.sourceDisplayName}}</p>
               </a>
+            </div>
+            <div class="card-rating">
+              <span ng-repeat="i in [0, 1, 2, 3, 4]">
+                <i ng-if="recipe.rating > i" class="fa fa-star"></i>
+                <i ng-if="recipe.rating <= i" class="fa fa-star-o"></i>
+              </span>
             </div>
           </div>
 

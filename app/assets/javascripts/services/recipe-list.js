@@ -61,6 +61,7 @@ angular
         service.removedIngredient = false;
 
         if (updateRecipes) {
+          recipes = [];
 
           $http({
             url: '/api/recipes',

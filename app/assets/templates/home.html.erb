@@ -1,7 +1,5 @@
 <header class="row">
-<!--   <div class="title-icon col-sm-2 col-sm-offset-1 hidden-xs">
-    <img src="https://cdn2.iconfinder.com/data/icons/windows-8-metro-style/512/fridge.png" alt="fridge icon">
-  </div> -->
+
   <h1 class="col-sm-6 col-sm-offset-3 text-center">
     <!-- !!! fix this somehow so that keywords and ingredients don't show up in url -->
     <a ui-sref="home({keywords: '', ingredients: '', excludedIngredients: ''})" class="main-title">
@@ -16,9 +14,7 @@
     <!-- What the fridge? -->
 
   </h1>
-<!--   <div class="title-icon col-sm-2 hidden-xs">
-    <img src="http://megaicons.net/static/img/icons_sizes/8/178/512/kitchen-coking-pot-icon.png" alt="cooking pot icon">
-  </div> -->
+
 </header>
 <p class="text-center">The recipe search based on the ingredients you have on hand.</p>
 <p class="text-center"></p>
@@ -300,9 +296,9 @@
           <div class="card-info">
 
             <div class="card-ingredients">
-              <ul>
+              <ul class="fa-ul">
                 <li ng-repeat="ingredient in recipe.expandedInfo.ingredientLines track by $index">
-                  <i class="fa fa-cutlery"></i> {{ingredient}}
+                  <i class="fa fa-li fa-cutlery"></i> {{ingredient}}
                   <!-- <i class="icon icon-pot"></i> {{ingredient}} -->
                 </li>
               </ul>

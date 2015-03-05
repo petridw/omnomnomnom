@@ -142,7 +142,7 @@ function HomeController($http, RecipeList, Recipe, IngredientMetadata, Ingredien
     if (exclude) {
       if ((vm.ingredient !== "") && (!vm.ingredientList.hasExactIngredient(vm.ingredient, true))) {
         vm.ingredientList.addIngredient(vm.ingredient, true);
-        RecipeList.addIngredient();
+        RecipeList.removeIngredient();
         vm.ingredient = "";
         vm.search();
       }
@@ -197,6 +197,8 @@ function HomeController($http, RecipeList, Recipe, IngredientMetadata, Ingredien
     if (vm.limit < 500) {
       width = $( window ).width();
 
+      // !!! Fix so that it loads remainder of (vm.limit/current width cols) as well.
+      //     This will fix incomplete rows loading when screen size changes between loads
       // Add 1 row worth of new recipes to the view.
       if (width >= 1200) {
         vm.limit += 6;

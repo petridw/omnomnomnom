@@ -4,8 +4,7 @@ angular
                         'templates', 
                         'ui.bootstrap', 
                         'infinite-scroll', 
-                        'autofocus',
-                        'ngAnimate'])
+                        'autofocus'])
 
   .config([
     '$stateProvider',

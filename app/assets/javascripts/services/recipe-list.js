@@ -47,21 +47,21 @@ angular
           updateRecipes = true;
         }
 
-        // LOGGING
-        console.log("Recipe List Service log");
-        console.log("Old keyword: " + service.keywords + ". New keyword: " + keywords);
-        if (service.addedIngredient) {console.log("Added an ingredient.");}
-        if (service.removedIngredient) {console.log("Removed an ingredient.");}
-        console.log("# of downloaded recipes already: " + service.recipes.length);
-        if (updateRecipes) { console.log("Updating recipes!"); }
-        else { console.log("Not updating recipes."); }
+        // // LOGGING
+        // console.log("Recipe List Service log");
+        // console.log("Old keyword: " + service.keywords + ". New keyword: " + keywords);
+        // if (service.addedIngredient) {console.log("Added an ingredient.");}
+        // if (service.removedIngredient) {console.log("Removed an ingredient.");}
+        // console.log("# of downloaded recipes already: " + service.recipes.length);
+        // if (updateRecipes) { console.log("Updating recipes!"); }
+        // else { console.log("Not updating recipes."); }
 
         service.keywords = keywords;
         service.addedIngredient = false;
         service.removedIngredient = false;
 
         if (updateRecipes) {
-          recipes = [];
+          service.recipes = [];
 
           $http({
             url: '/api/recipes',

@@ -36,10 +36,9 @@ header {
 
 .attr-footer {
     width: 100%;
-    text-align: right;
     margin: 0;
     padding: 20px 10px 0 0;
-    background: #16a085;
+    // background: #16a085;
     background: #2A2A2A;
     // border-top: $base-border;
     color: white;
@@ -50,11 +49,32 @@ header {
     height: 60px;
     left: 0;
     position: absolute;
-    width: 100%;
 
-    .yummly-logo {
-      max-width: 4.5em;
+    .left-side {
+      // display: inline-block;
+      // width: 49%;
+      text-align: left;
+      float: left;
+      a {
+        font-family: 'Architects Daughter';
+        font-weight: bold;
+        font-size: 1.2em;
+        color: $yummly-font-color;
+        margin: 0 5px 0 10px;
+      }
     }
+
+    .right-side {
+      // display: inline-block;
+      // width: 49%;
+      text-align: right;
+      float: right;
+      .yummly-logo {
+        max-width: 4.5em;
+      }
+    }
+  
+
 }
 
 .main-content {

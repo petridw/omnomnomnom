@@ -43,13 +43,16 @@
   
 }
 
-// .animate-recipe,
-// .animate-recipe.ng-leave {
-//   -webkit-transition:all cubic-bezier(.42,0,.58,1) .7s;
-//   transition:all cubic-bezier(.42,0,.58,1) .7s;
+.animate-recipe,
+.animate-recipe.ng-leave {
+  -webkit-transition:all cubic-bezier(.42,0,.58,1) .7s;
+  transition:all cubic-bezier(.42,0,.58,1) .7s;
 
-//   animation: fadeOut;
-// }
+  animation: fadeOut;
+}
 
+.animate-recipe.ng-leave.ng-leave-active {
+  animation: fadeOut;
+}
 
 

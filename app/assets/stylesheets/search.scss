@@ -29,7 +29,7 @@
     $ingredient-font-color: $blue;
     $ingredient-font-family: $title-font-family;
 
-    border: $base-border;
+    border: 1px dashed $base-border-color;
     background: $ingredient-list-background;
     border-radius: 4px;
     margin: 0;

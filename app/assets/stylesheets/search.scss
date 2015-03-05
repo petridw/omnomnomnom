@@ -3,6 +3,10 @@
   // font-weight: 700;
 }
 
+.search-results-section {
+  margin-bottom: 15px;
+}
+
 .spinner {
   margin-bottom: 15px;
 }
@@ -13,57 +17,77 @@
   }
 }
 
-.have-ingredient-list {
+.ingredient-lists {
 
-  $ingredient-background: white;
-  $ingredient-hover-background: darken($ingredient-background, 10%);
-  $ingredient-font-color: $blue;
-  $ingredient-font-family: $title-font-family;
+  margin-top: 15px;
 
-  .have-ingredient {
-    display: inline-block;
-    position: relative;
-    font-family: $ingredient-font-family;
-    font-weight: bold;
-    font-size: 1.4em;
-    padding-left: 3px;
-    // border: 1px solid grey;
-    // border-radius: 4px;
-    // margin: 3px;
-    // padding: 2px;
-    // background-color: $ingredient-background;
-    color: $ingredient-font-color;
+  .have-ingredient-list {
 
-    &:focus,
-    &:hover {
-      background-color: $ingredient-hover-background;
-      border-radius:8px;
-      cursor: pointer;
-      cursor: hand;
+    $ingredient-background: lighten($base-background-color, 5%);
+    $ingredient-list-background: lighten($base-background-color, 5%);;
+    $ingredient-hover-background: darken($ingredient-background, 15%);
+    $ingredient-font-color: $blue;
+    $ingredient-font-family: $title-font-family;
+
+    border: $base-border;
+    background: $ingredient-list-background;
+    border-radius: 4px;
+    margin: 0;
+    list-style-type: none;
+    padding: 5px 0 5px 30px;
+    // text-align: center;
+
+    .info-message {
+      color: lighten(black, 60%);
     }
 
-    .ingredient-hover {
-      position: absolute;
-      font-size: 20px;
-      margin: 0;
-      // left: 0;
-      right: 0;
-      top: 0;
-      color: #CA3128;
-    }
+    .have-ingredient {
+      // display: inline-block;
+      // position: relative;
+      // font-family: $ingredient-font-family;
+      // font-weight: bold;
+      // font-size: 1.4em;
+      // padding-left: 3px;
+      // border-radius: 4px;
+      // margin: 3px;
+      // padding: 2px;
+      // background-color: $ingredient-background;
+      // color: $ingredient-font-color;
+
+      li {
+        padding: 2px 0 2px 0;
+      }
+
+      &:focus,
+      &:hover {
+        background-color: $ingredient-hover-background;
+        cursor: pointer;
+        cursor: hand;
+      }
+
+      .ingredient-hover {
+        position: absolute;
+        font-size: 20px;
+        margin: 0;
+        // left: 0;
+        right: 5px;
+        top: 0;
+        // color: #CA3128;
+        color: $yummly-font-color;
+      }
 
 
 
-    &.excluded {
-      text-decoration: line-through;
-      color: $yummly-font-color;
+      &.excluded {
+        text-decoration: line-through;
+        color: $yummly-font-color;
 
-      .list-comma {
-        text-decoration: none;
+        .list-comma {
+          text-decoration: none;
+        }
       }
     }
   }
-
 }
 
 .search-submit-button {
@@ -71,6 +95,7 @@
   font-weight: bold;
   font-size: 2em;
   padding: 3px 7px;
+  margin-top: 15px;
   // border: 2px outset #b37d00;
 
   // cheesy drop shadow thing:

@@ -16,6 +16,8 @@ function HomeController($http, RecipeList, Recipe, IngredientMetadata, Ingredien
 
   var vm = this;
 
+  vm.href = $state.href('home', {}, {absolute: true});
+
   vm.titles = [
     "Get your fridge on.",
     "Fridger it out.",

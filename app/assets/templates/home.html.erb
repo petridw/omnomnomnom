@@ -47,22 +47,20 @@
   </form>
 
   <!-- -------------------- Ingredient Form -------------------- -->
-  <form>
+  <form ng-submit="!vm.ingredient || vm.addIngredient(false)">
     <!-- included ingredients input -->
     <div class="row ingredient-input">
 
       <label for="include-ingredient-input" class="sr-only control-label">
         Ingredients
       </label>
-
       <div class="col-sm-6 col-sm-offset-3">
-
         <div class="input-group">
           <input  typeahead="ingredient as ingredient.searchValue for ingredient in vm.ingredientsData | filter:$viewValue | limitTo:10" 
                   typeahead-on-select="vm.onSelect($item, $model, $label)" 
                   class="form-control" type="text"
                   name="include-ingredient-input"
-                  placeholder="Include or exclude a specific ingredient"
+                  placeholder="Include or exclude an ingredient"
                   ng-model="vm.ingredient"
                   autofocus="{{vm.keywords.length>0}}">
 
@@ -76,7 +74,6 @@
               Exclude
             </button>
           </span>
-
         </div>
       </div>
     </div>
@@ -103,20 +100,41 @@
   <!-- -------------------- Ingredient Lists -------------------- -->
   <div class="row ingredient-lists">
 
-    <!------ have ingredients list ------>
-    <div class="have-ingredient-list form-group col-sm-5 col-sm-offset-1 text-center">
-      <span class="have-ingredient"
+    <div class="col-sm-3 col-sm-offset-3">
+      <ul class="have-ingredient-list fa-ul">
+        <li class="have-ingredient"
             ng-repeat="ingredient in vm.ingredientList.ingredients" 
             ng-mouseenter="vm.hoveredIngredient = $index" 
             ng-mouseleave="vm.hoveredIngredient = -1" 
             ng-click="vm.removeIngredient(ingredient, false)">
-        {{ingredient}}<span class="list-comma">{{$last ? '' : ', '}}</span>
-        <i class="fa fa-minus-square ingredient-hover" ng-if="vm.hoveredIngredient === $index"></i>
-        </span>
+          <i class="fa-li fa fa-check-square"></i>{{ingredient}}
+          <i class="fa fa-minus-square ingredient-hover" ng-if="vm.hoveredIngredient === $index"></i>
+        </li>
+        <li class="info-message" ng-if="vm.ingredientList.ingredients.length === 0">
+          <i class="fa-li fa fa-check-square"></i>
+          Included ingredients...
+        </li>
+      </ul>
     </div>
 
+    <div class="col-sm-3">
+      <ul class="have-ingredient-list fa-ul">
+        <li class="have-ingredient"
+            ng-repeat="ingredient in vm.ingredientList.excludedIngredients" 
+            ng-mouseenter="vm.hoveredExcludedIngredient = $index" 
+            ng-mouseleave="vm.hoveredExcludedIngredient = -1" 
+            ng-click="vm.removeIngredient(ingredient, true)">
+          <i class="fa-li fa fa-remove"></i>{{ingredient}}
+          <i class="fa fa-minus-square ingredient-hover" ng-if="vm.hoveredExcludedIngredient === $index"></i>
+        </li>
+        <li class="info-message" ng-if="vm.ingredientList.excludedIngredients.length === 0">
+          <i class="fa-li fa fa-check-square"></i>
+          Excluded ingredients...
+        </li>
+      </ul>
+    </div>
     <!------ exclude ingredients list ------>
-    <div class="have-ingredient-list form-group col-sm-5 text-center">
+<!--     <div class="have-ingredient-list form-group col-sm-5 text-center">
       <span class="have-ingredient excluded"
             ng-repeat="ingredient in vm.ingredientList.excludedIngredients" 
             ng-mouseenter="vm.hoveredExcludedIngredient = $index" 
@@ -125,23 +143,24 @@
         {{ingredient}}<span class="list-comma">{{$last ? '' : ', '}}</span>
         <i class="fa fa-minus-square ingredient-hover" ng-if="vm.hoveredExcludedIngredient === $index"></i>
         </span>
-    </div>
+    </div> -->
 
   </div>
 
 
-  <!-- -------------------- Keywords / Search Form -------------------- -->
+  <!-- -------------------- Main Search Button -------------------- -->
 
   <div class="row">
     <form ng-submit="vm.search()">
       <!-- submit form -->
       <div class="form-group col-sm-6 col-sm-offset-3 text-center">
         <button type="submit" class="btn btn-primary btn-lg search-submit-button">
-          <i class="fa fa-cutlery"></i> let's cook!
+          <i class="fa fa-cutlery"></i> get cooking!
         </button>
       </div>
     </form>
   </div>
+
 </section>
 
 
@@ -166,10 +185,10 @@
     <label for="order-by">Order by</label>
     <select name="order-by" class="form-control" ng-model="vm.order" name="Order by">
       <option value="recipeName">Recipe Name</option>
-      <option value="rating">Rating</option>
-      <option value="totalIngredients">Ingredients</option>
-      <option value="ingredientPercentage">Ingredient Percentage</option>
-      <option value="totalTimeInSeconds">Time</option>
+      <option value="rating">Recipe Rating</option>
+      <option value="totalIngredients"># of Ingredients</option>
+      <option value="ingredientPercentage">Ingredients On Hand</option>
+      <option value="totalTimeInSeconds">Preperation Time</option>
     </select>
     </span>
   </div>
@@ -199,7 +218,7 @@
 
 
 <!-- -------------------- List of Recipes -------------------- -->
-<section ng-if="vm.searchResults" infinite-scroll="vm.loadMoreResults()"  class="row text-center">
+<section ng-if="vm.searchResults" infinite-scroll="vm.loadMoreResults()"  class="row search-results-section text-center">
 
   <!-- selected-card class can override all normal card styles bc of specificity of the css selector -->
   <div  ng-repeat="recipe in vm.recipes | filter:vm.matchIngredients() | orderBy:vm.order:vm.reverse | limitTo:vm.limit" 
@@ -299,7 +318,10 @@
 
       </div>
 
-
     </div>
+  </div>
+
+  <div class="no-search-results">
+    
   </div>
 </section>

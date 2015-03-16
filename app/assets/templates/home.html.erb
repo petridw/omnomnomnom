@@ -1,23 +1,15 @@
 <header class="row">
 
   <h1 class="col-sm-6 col-sm-offset-3 text-center">
-    <!-- !!! fix this somehow so that keywords and ingredients don't show up in url -->
+    <!-- link to home/reset search -->
     <a ui-sref="home({keywords: '', ingredients: '', excludedIngredients: ''})" class="main-title">
       what's in your fridge?
     </a>
-    
-    <!-- Fridger it out. -->
-    <!-- What's in your fridget? -->
-    <!-- Go fridge yourself. -->
-    <!-- Fridgin' awesome. -->
-    <!-- Fridgeddaboudit -->
-    <!-- What the fridge? -->
-
   </h1>
 
 </header>
+
 <p class="text-center">The recipe search based on the ingredients you have on hand.</p>
-<p class="text-center"></p>
 
 
 
@@ -218,17 +210,18 @@
 
   <!-- selected-card class can override all normal card styles bc of specificity of the css selector -->
   <div  ng-repeat="recipe in vm.recipes | filter:vm.matchIngredients() | orderBy:vm.order:vm.reverse | limitTo:vm.limit" 
-        ng-class="{true: 'selected-card col-lg-6 col-md-9 col-sm-12', false: 'col-lg-2 col-md-3 col-sm-4'}[recipe.isSelected]"
+        ng-class="{true: 'selected-card col-lg-6 col-md-6 col-sm-8 col-xs-12', false: 'col-lg-3 col-md-3 col-sm-4 col-xs-6'}[recipe.isSelected]"
         class="animate-recipe animated fadeIn">
     <div class="card card-{{recipe.id}}" ng-click="vm.clickRecipe(recipe)" >
 
-      <!---------- only displayed when the card is unselected --------->
+      <!---------- only displayed when the card is unselected -------- -->
+
       <div class="card-narrow" ng-if="!recipe.isSelected" >
 
         <!-- !!! change header so that image and text are side by side taking up half the space in the card -->
         <div class="card-header">
           <div class="card-image">
-            <img class="" ng-src="{{ recipe['imageUrlsBySize']['90'] }}" alt="{{recipe.recipeName}} image" >
+            <img class="img-responsive" ng-src="{{ recipe['imageUrlsBySize']['card'] }}" alt="{{recipe.recipeName}} image" >
           </div>
           <div class="card-title">
             {{recipe.recipeName}}
@@ -242,13 +235,13 @@
               <i ng-if="recipe.rating <= i" class="fa fa-star-o"></i>
             </span>
           </div>
-          <div class="card-ing-percentage">
-            <span>Ingredients:</span> {{recipe.ingredientPercentage}}% ({{recipe.ingredientMatches}} / {{recipe.totalIngredients}})
-          </div>
           <div class="card-time">
             <span ng-if="recipe.totalTimeInSeconds">
               <i class="fa fa-clock-o"></i> {{recipe.totalTimeInSeconds | secondsToString}}
             </span>
+          </div>
+          <div class="card-ing-percentage">
+            <span>Ingredients:</span> {{recipe.ingredientPercentage}}% ({{recipe.ingredientMatches}} / {{recipe.totalIngredients}})
           </div>
           <div class="card-ingredients">
             <p>
@@ -261,7 +254,7 @@
         </div>
       </div>
 
-      <!--------- only displayed when this card is selected --------->
+      <!-- ------- only displayed when this card is selected ------- -->
       <div class="card-wide" ng-if="recipe.isSelected">
         
         <!-- show spinner while api call still running -->
@@ -274,7 +267,7 @@
         <div ng-if="!recipe.isLoading">
 
           <div class="card-image">
-            <img ng-src="{{ recipe.expandedInfo.images[0]['imageUrlsBySize']['360'] }}" alt="{{recipe.recipeName}} large image">
+            <img ng-src="{{ recipe['imageUrlsBySize']['card'] }}" alt="{{recipe.recipeName}} large image">
           </div>
 
           <div class="card-header">

@@ -19,13 +19,13 @@
   $card-ingredient-color: #56A845;
 
   background-color: $card-background;
-  border-radius: $base-border-radius;
-  border: $card-border;
+  // border-radius: $base-border-radius;
+  // border: $card-border;
   // box-shadow: 0 2px 4px darken($base-background-color, 10%);
-  height: 350px;
+  height: 420px;
   margin-bottom: $base-spacing;
   box-sizing: border-box;
-  overflow: auto;
+  // overflow: auto;
 
   .card-rating {
     color: $yummly-font-color;
@@ -43,12 +43,13 @@
     .card-image {
 
       // margin: $base-spacing;
-      margin: 1em;
+      // margin: 1em;
 
       img {
-        border-radius: $base-border-radius;
-        width: 90px;
-        height: 90px;
+
+        // border-radius: $base-border-radius;
+        // max-width: 200px;
+        // height: 90px;
       }
     }
 
@@ -61,11 +62,10 @@
       border-radius: $base-border-radius $base-border-radius 0 0;
       font-weight: bold;
       line-height: 1.5em;
-      padding: ($base-spacing / 3) ($base-spacing / 2);
-
 
       .card-title {
         display: inline-block;
+        padding-top: 10px;
       }
 
 
@@ -78,6 +78,8 @@
     .card-info {
       margin-top: 5px;
       flex: 1;
+      overflow: auto;
+      height: 0px;
     }
 
     .card-ingredients {
@@ -94,10 +96,6 @@
       }
     }
 
-    &:focus,
-    &:hover {
-      background-color: $card-hover-background;
-    }
   }
 
   .card-wide {
@@ -110,7 +108,7 @@
       img {
           float: left;
           max-width: 348px;
-          max-height: 348px;
+          // max-height: 348px;
         }
     }
 
@@ -145,10 +143,9 @@
 
     .card-info {
       box-sizing: border-box;
-      height: 100%;
       text-align: left;
       margin-left: 350px;
-      height: 230px;
+      height: 300px;
       border-top: $card-border;
       overflow: auto;
 
@@ -160,6 +157,12 @@
         }
       }
     }
+
+  }
+
+  &:focus,
+  &:hover {
+    background-color: $card-hover-background;
   }
 
 }

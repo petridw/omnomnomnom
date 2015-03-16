@@ -49,7 +49,7 @@ module Api
       end
 
       recipes = response['matches']
-      recipes.sort! { |a,b| b['rating'] <=> a['rating'] }
+      # recipes.sort! { |a,b| b['rating'] <=> a['rating'] }
 
       # set up a few extra key/value pairs which will be used by angular
       recipes = recipes.take(LIMIT_TO)
@@ -108,39 +108,39 @@ module Api
     #     change this so that the update happens in a background task!
     def ingredients
 
-      ingredient = Ingredient.first
+      # ingredient = Ingredient.first
 
-      # if data is over 2 weeks old (604800 seconds in week)
-      if ingredient == nil || ((Time.now.to_i - ingredient.updated_at.to_i) > 1209600)
+      # # if data is over 2 weeks old (604800 seconds in week)
+      # if ingredient == nil || ((Time.now.to_i - ingredient.updated_at.to_i) > 1209600)
 
-        request = "#{API_URL}/metadata/ingredient"
-        options = {
-          query:
-          {
-            _app_id: ENV['yummly_app_id'],
-            _app_key: ENV['yummly_app_key']
-          }
-        }
+      #   request = "#{API_URL}/metadata/ingredient"
+      #   options = {
+      #     query:
+      #     {
+      #       _app_id: ENV['yummly_app_id'],
+      #       _app_key: ENV['yummly_app_key']
+      #     }
+      #   }
 
-        # cut off the beginning and end because jsonp adds some stuff json doesn't understand
-        response = JSON.parse(HTTParty.get(request, options)[27..-3])
+      #   # cut off the beginning and end because jsonp adds some stuff json doesn't understand
+      #   response = JSON.parse(HTTParty.get(request, options)[27..-3])
 
-        # perform an "upsert" on each ingredient, i.e. update if it's there or create if not
-        # there is definitely a better way to write this but this should work for now
-        response.each do |ingredient|
-          i_in_db = Ingredient.find_by(searchValue: ingredient["searchValue"])
-          if i_in_db
-            i_in_db.update_attributes(searchValue: ingredient["searchValue"],
-                                      description: ingredient["description"],
-                                      term: ingredient["term"])
-          else
-            Ingredient.create(searchValue: ingredient["searchValue"],
-                              description: ingredient["description"],
-                              term: ingredient["term"]);
-          end
-        end
+      #   # perform an "upsert" on each ingredient, i.e. update if it's there or create if not
+      #   # there is definitely a better way to write this but this should work for now
+      #   response.each do |ingredient|
+      #     i_in_db = Ingredient.find_by(searchValue: ingredient["searchValue"])
+      #     if i_in_db
+      #       i_in_db.update_attributes(searchValue: ingredient["searchValue"],
+      #                                 description: ingredient["description"],
+      #                                 term: ingredient["term"])
+      #     else
+      #       Ingredient.create(searchValue: ingredient["searchValue"],
+      #                         description: ingredient["description"],
+      #                         term: ingredient["term"]);
+      #     end
+      #   end
 
-      end
+      # end
 
       # render json of all ingredients in our DB, which should now be updated
       render json: Ingredient.all.to_json(except: [:created_at, :updated_at])

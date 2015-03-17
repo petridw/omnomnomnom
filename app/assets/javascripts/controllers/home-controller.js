@@ -8,11 +8,12 @@ angular
     'IngredientList',
     '$state',
     '$stateParams',
+    '$timeout',
     HomeController
   ]);
 
 
-function HomeController($http, RecipeList, Recipe, IngredientMetadata, IngredientList, $state, $stateParams) {
+function HomeController($http, RecipeList, Recipe, IngredientMetadata, IngredientList, $state, $stateParams, $timeout) {
 
   var vm = this;
 
@@ -119,16 +120,17 @@ function HomeController($http, RecipeList, Recipe, IngredientMetadata, Ingredien
         .success(function(data, status, headers, config) {
           recipe.isLoading = false;      // turn off loading spinner
           recipe.expandedInfo = data;    // give recipe its expanded data
-          resizeCard(recipe.id);
         })
         .error(function(data, status, headers, config) {
           recipe.isLoading = false;    // turn off loading spinner
           console.log("Error retrieving recipe data for " + vm.recipes[key] + ".", data);
         });
 
+    } else if (recipe.isSelected) {
+      // recipe.isLoading = true;
+      // $timeout(function() {recipe.isLoading = false;}, 525);
     } else {
-      // console.log("huh?");
-      resizeCard(recipe.id);
+      // recipe
     }
 
   };
@@ -196,19 +198,19 @@ function HomeController($http, RecipeList, Recipe, IngredientMetadata, Ingredien
   vm.loadMoreResults = function() {
     if (vm.limit < 500) {
       width = $( window ).width();
+      var numCards;
 
-      // !!! Fix so that it loads remainder of (vm.limit/current width cols) as well.
-      //     This will fix incomplete rows loading when screen size changes between loads
-      // Add 1 row worth of new recipes to the view.
-      if (width >= 1200) {
-        vm.limit += 6;
-      } else if (width >= 992) {
-        vm.limit += 4;
+      // Add 1 row worth of new recipes to the list. The # of recipes to add depends on the screen size.
+      if (width >= 992) {
+        numCards = 4 - (vm.limit % 4);
       } else if (width >= 768) {
-        vm.limit += 3;
+        numCards = 3 - (vm.limit % 3);
       } else {
-        vm.limit += 1;
+        numCards = 2 - (vm.limit % 2);
       }
+
+      vm.limit += numCards;
+      console.log("adding " + numCards);
 
     }
   };

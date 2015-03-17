@@ -216,91 +216,89 @@
 
       <!---------- only displayed when the card is unselected -------- -->
 
-      <div class="card-narrow" ng-if="!recipe.isSelected" >
+      <div class="row">
 
-        <!-- !!! change header so that image and text are side by side taking up half the space in the card -->
-        <div class="card-header">
+        <div class="card-narrow" ng-class="{ 'col-xs-6': (recipe.isSelected), 'col-xs-12': !recipe.isSelected }">
+
+          <!-- !!! change header so that image and text are side by side taking up half the space in the card -->
           <div class="card-image">
             <img class="img-responsive" ng-src="{{ recipe['imageUrlsBySize']['card'] }}" alt="{{recipe.recipeName}} image" >
           </div>
-          <div class="card-title">
-            {{recipe.recipeName}}
-            <p>{{ recipe.sourceDisplayName }}</p>
-          </div>
-        </div>
-        <div class="card-info">
-          <div class="card-rating">
-            <span ng-repeat="i in [0, 1, 2, 3, 4]">
-              <i ng-if="recipe.rating > i" class="fa fa-star"></i>
-              <i ng-if="recipe.rating <= i" class="fa fa-star-o"></i>
-            </span>
-          </div>
-          <div class="card-time">
-            <span ng-if="recipe.totalTimeInSeconds">
-              <i class="fa fa-clock-o"></i> {{recipe.totalTimeInSeconds | secondsToString}}
-            </span>
-          </div>
-          <div class="card-ing-percentage">
-            <span>Ingredients:</span> {{recipe.ingredientPercentage}}% ({{recipe.ingredientMatches}} / {{recipe.totalIngredients}})
-          </div>
-          <div class="card-ingredients">
-            <p>
-              <span ng-class="{'have-ingredient': vm.ingredientList.hasIngredientMatch(ingredient)}" 
-                    ng-repeat="ingredient in recipe.ingredients">
-                {{ingredient}}<span class="list-comma">{{$last ? '' : ', '}}</span>
-              </span>
-            </p>
-          </div>
-        </div>
-      </div>
-
-      <!-- ------- only displayed when this card is selected ------- -->
-      <div class="card-wide" ng-if="recipe.isSelected">
-        
-        <!-- show spinner while api call still running -->
-        <div ng-if="recipe.isLoading" class="text-center card-spinner">
-          <p>Hold up a sec while we wrangle this recipe</p>
-          <i class="fa fa-spinner fa-pulse fa-4x"></i>
-        </div>
-
-        <!-- show card content once it's loaded -->
-        <div ng-if="!recipe.isLoading">
-
-          <div class="card-image">
-            <img ng-src="{{ recipe['imageUrlsBySize']['card'] }}" alt="{{recipe.recipeName}} large image">
-          </div>
-
           <div class="card-header">
-
-            <div class="card-header-text">
-              <h4>{{recipe.recipeName}}</h4>
-              <a ng-click="$event.stopPropagation();" ng-href="{{ recipe.expandedInfo.source.sourceRecipeUrl }}">
-                <p>View full recipe steps at {{recipe.sourceDisplayName}}</p>
-              </a>
+            <div class="card-title">
+              {{recipe.recipeName}}
+              <p>{{ recipe.sourceDisplayName }}</p>
             </div>
+          </div>
+
+          <div class="card-info">
             <div class="card-rating">
               <span ng-repeat="i in [0, 1, 2, 3, 4]">
                 <i ng-if="recipe.rating > i" class="fa fa-star"></i>
                 <i ng-if="recipe.rating <= i" class="fa fa-star-o"></i>
               </span>
             </div>
-          </div>
-
-          <div class="card-info">
-
+            <div class="card-time">
+              <span ng-if="recipe.totalTimeInSeconds">
+                <i class="fa fa-clock-o"></i> {{recipe.totalTimeInSeconds | secondsToString}}
+              </span>
+            </div>
+            <div class="card-ing-percentage">
+              <span>Ingredients:</span> {{recipe.ingredientPercentage}}% ({{recipe.ingredientMatches}} / {{recipe.totalIngredients}})
+            </div>
             <div class="card-ingredients">
-              <ul class="fa-ul">
-                <li ng-repeat="ingredient in recipe.expandedInfo.ingredientLines track by $index">
-                  <i class="fa fa-li fa-cutlery"></i> {{ingredient}}
-                  <!-- <i class="icon icon-pot"></i> {{ingredient}} -->
-                </li>
-              </ul>
-              <p ng-if="recipe.expandedInfo.ingredientLines.length < 1">
-                We were unable to obtain the full ingredient list for this recipe, so you'll have to check it out at 
-                <a ng-click="$event.stopPropagation();" ng-href="{{ recipe.expandedInfo.source.sourceRecipeUrl }}">{{recipe.sourceDisplayName}}</a>
+              <p>
+                <span ng-class="{'have-ingredient': vm.ingredientList.hasIngredientMatch(ingredient)}" 
+                      ng-repeat="ingredient in recipe.ingredients">
+                  {{ingredient}}<span class="list-comma">{{$last ? '' : ', '}}</span>
+                </span>
               </p>
             </div>
-            
+          </div>
+
+        </div>
+
+
+        <!-- ------- only displayed when this card is selected ------- -->
+        <div class="card-wide col-xs-6" ng-if="recipe.isSelected">
+          
+          <!-- show spinner while api call still running -->
+          <div ng-if="recipe.isLoading" class="text-center card-spinner">
+            <p>Hold up a sec while we wrangle this recipe</p>
+            <i class="fa fa-spinner fa-pulse fa-4x"></i>
+          </div>
+
+          <!-- show card content once it's loaded -->
+          <div ng-if="!recipe.isLoading">
+
+            <div class="card-header">
+
+              <div class="card-header-text">
+                <a ng-click="$event.stopPropagation();" ng-href="{{ recipe.expandedInfo.source.sourceRecipeUrl }}">
+                  <p>View full recipe steps at {{recipe.sourceDisplayName}}</p>
+                </a>
+              </div>
+
+            </div>
+
+            <div class="card-info">
+
+              <div class="card-ingredients">
+                <ul class="fa-ul">
+                  <li ng-repeat="ingredient in recipe.expandedInfo.ingredientLines track by $index"
+                      ng-class="{'have-ingredient': vm.ingredientList.hasIngredientMatch(ingredient)}">
+                    <i class="fa fa-li fa-cutlery"></i> {{ingredient}}
+                    <!-- <i class="icon icon-pot"></i> {{ingredient}} -->
+                  </li>
+                </ul>
+                <p ng-if="recipe.expandedInfo.ingredientLines.length < 1">
+                  We were unable to obtain the full ingredient list for this recipe, so you'll have to check it out at 
+                  <a ng-click="$event.stopPropagation();" ng-href="{{ recipe.expandedInfo.source.sourceRecipeUrl }}">{{recipe.sourceDisplayName}}</a>
+                </p>
+              </div>
+              
+            </div>
+
           </div>
 
         </div>

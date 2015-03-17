@@ -10,9 +10,9 @@
   $card-border-color: $base-border-color;
   $card-border: 1px solid $card-border-color;
   // $card-background: darken($base-background-color, 10%);
-  $card-background: white;
+  $card-background: lighten($base-background-color, 15%);
   $card-header-background: $card-background;
-  $card-hover-background: darken($card-background, 15%);
+  $card-hover-background: lighten($base-background-color, 7%);
   $card-image-background: #DBD199;
   $card-image-hover-background: darken($card-image-background, 5%);
   $card-margin: 1em;
@@ -22,35 +22,42 @@
   // border-radius: $base-border-radius;
   // border: $card-border;
   // box-shadow: 0 2px 4px darken($base-background-color, 10%);
-  height: 420px;
+  height: 475px;
   margin-bottom: $base-spacing;
   box-sizing: border-box;
-  // overflow: auto;
-
-  .card-rating {
-    color: $yummly-font-color;
-  }
+  overflow: hidden;
 
   .card-spinner {
     margin-top: 120px;
   }
 
+  .row {
+    margin: 0;
+  }
+
   .card-narrow {
+    padding: 0;
     display: flex;
+    float: left;
     min-height: 100%;
     flex-direction: column;
+    overflow: hidden;
+    // max-width: 305px;
   
     .card-image {
 
       // margin: $base-spacing;
       // margin: 1em;
+      height: 305px;
 
       img {
-
+        background: black;
+        max-width: 305px;
         // border-radius: $base-border-radius;
         // max-width: 200px;
         // height: 90px;
       }
+
     }
 
     .card-ing-percentage span {
@@ -62,6 +69,7 @@
       border-radius: $base-border-radius $base-border-radius 0 0;
       font-weight: bold;
       line-height: 1.5em;
+      height: 75px;
 
       .card-title {
         display: inline-block;
@@ -78,13 +86,23 @@
     .card-info {
       margin-top: 5px;
       flex: 1;
+      height: 95px;
       overflow: auto;
-      height: 0px;
+
+      .card-rating {
+        display: inline-block;
+        color: $yummly-font-color;
+        padding-right: 10px;
+      }
+
+      .card-time {
+        display: inline-block;
+      }
     }
 
     .card-ingredients {
-      margin: 0 7px 0 7px;
-      overflow: hidden;
+      margin: 0 7px;
+
       .have-ingredient {
         font-weight: bold;
         // color: #56A845;
@@ -102,19 +120,12 @@
     // !!! change to fill space horizontally
 
     padding: 0;
+    float: right;
     overflow: hidden;
-
-    .card-image {
-      img {
-          float: left;
-          max-width: 348px;
-          // max-height: 348px;
-        }
-    }
 
     .card-header {
 
-      height: 118px;
+      height: 60px;
       text-align: left;
       overflow: auto;
 
@@ -144,10 +155,14 @@
     .card-info {
       box-sizing: border-box;
       text-align: left;
-      margin-left: 350px;
-      height: 300px;
+      height: 405px;
       border-top: $card-border;
+
       overflow: auto;
+
+      .card-ingredients {
+        padding-top: 10px;
+      }
 
       ul {
         list-style-type: none;
@@ -163,8 +178,21 @@
   &:focus,
   &:hover {
     background-color: $card-hover-background;
+    .img-responsive {
+      opacity: .8;
+    }
   }
 
 }
+
+// .selected-card {
+//   .card-narrow {
+//     .card-image {
+//       .img-responsive {
+//         max-width: 100%;
+//       }
+//     }
+//   }
+// }
 
 

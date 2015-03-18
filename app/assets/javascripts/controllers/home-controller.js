@@ -36,6 +36,7 @@ function HomeController($http, RecipeList, Recipe, IngredientMetadata, Ingredien
   vm.order              = "ingredientPercentage"; // default order for recipe list
   vm.reverse            = true;                   // default direction to order recipe list
   vm.limit              = 12;                     // default limit for num recipes to show
+  vm.offset             = 0;
   vm.ingredient         = "";
 
   vm.ingredientList = new IngredientList("", ""); // holds list of included/excluded ingredients
@@ -113,6 +114,9 @@ function HomeController($http, RecipeList, Recipe, IngredientMetadata, Ingredien
 
     if ((recipe.isSelected) && (recipe.expandedInfo === null)) {
 
+      // Add to offset, this is used by infinite scroll
+      vm.limit += 1;
+
       // Turn on this recipe's loading spinner
       recipe.isLoading = true;
     
@@ -127,10 +131,12 @@ function HomeController($http, RecipeList, Recipe, IngredientMetadata, Ingredien
         });
 
     } else if (recipe.isSelected) {
+      vm.limit += 1;
       // recipe.isLoading = true;
       // $timeout(function() {recipe.isLoading = false;}, 525);
     } else {
       // recipe
+      vm.limit -= 1;
     }
 
   };
@@ -221,39 +227,13 @@ function HomeController($http, RecipeList, Recipe, IngredientMetadata, Ingredien
   vm.matchIngredients = function() {
     return function(recipe) {
 
-      var ingCheck = false;
- 
-      for (var i = 0; i < vm.ingredientList.ingredients.length; i++) {
-        myIngWords = vm.ingredientList.ingredients[i].split(" ");
-        ingCheck = false;
-        for (var ii = 0; ii < myIngWords.length; ii++) {
-          myWord = myIngWords[ii];
+        // returns true if all of our ingredients are in the list and false otherwise
+        return arrayHasAllStrings(vm.ingredientList.ingredients, recipe.ingredients);
 
-          for (var j = 0; j < recipe.ingredients.length; j++) {
-            recIngredient = recipe.ingredients[j].toLowerCase();
-            recIngWords = recipe.ingredients[j].split(" ");
-
-            for (var jj = 0; jj < recIngWords.length; jj++) {
-              if (myWord.toLowerCase() === recIngWords[jj].toLowerCase()) {
-                ingCheck = true;
-              }
-            }
-
-            // if (recIngredient.search(myWord) !== -1) {
-            //   ingCheck = true;
-            // }
-          }
-        }
-        if (!ingCheck) {
-          // An included ingredient wasn't found in so filter this recipe out
-          return false;
-        }
-      }
-      // All included ingredients were found so don't filter this recipe
-      return true;
-    };
+      };
 
   };
+
 
   vm.showIcons = function() {
     console.log("window width: " + $( window ).width());

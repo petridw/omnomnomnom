@@ -78,26 +78,18 @@ angular
           }
         };
 
-        // Check whether or not the ingredient list has a "loose" ingredient match,
-        // e.g. "butter" and "unsalted butter" would return true.
+        // Check if ingredient is in our list
         this.hasIngredientMatch = function(ingredient) {
           
-          var ingredientWords = ingredient.split(" ");
-          var ourWords = [];
+          var hasMatch = false;
 
-          for (var i = 0; i < ingredientWords.length; i++) {
-            //check if word is in our ingredient list
-            for (var ii = 0; ii < this.ingredients.length; ii ++) {
-              //check each word in ingredient
-              ourWords = this.ingredients[ii].split(" ");
-              for (var j = 0; j < ourWords.length; j ++) {
-                if (ingredientWords[i].toLowerCase() === ourWords[j].toLowerCase()) {
-                  return true;
-                }
-              }
+          for (var i=0; i<this.ingredients.length; i++) {
+            if (ingredient.toLowerCase().indexOf(this.ingredients[i].toLowerCase()) !== -1) {
+              hasMatch = true;
             }
           }
-          return false;
+
+          return hasMatch;
 
         };
 

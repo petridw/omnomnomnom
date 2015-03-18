@@ -123,6 +123,10 @@
     float: right;
     overflow: hidden;
 
+    a {
+      font-weight: bold;
+    }
+
     .card-header {
 
       height: 60px;
@@ -164,12 +168,23 @@
         padding-top: 10px;
       }
 
+      .have-ingredient {
+        font-weight: bold;
+        color: $blue;
+      }
+
       ul {
         list-style-type: none;
         padding-left: 15px;
         i {
           padding-right: 2px;
         }
+
+        .have-ingredient & {
+          font-weight: bold;
+          color: $blue;
+        }
+
       }
     }
 
